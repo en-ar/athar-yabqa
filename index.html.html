@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>أَثَرٌ يَبْقَى</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Amiri:wght@700&display=swap" rel="stylesheet">
+<style>
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --breath: #EAE6DF;
+  --smoke: #6E7376;
+  --green-tea: #DBD4C1;
+  --blush: #E4D5C8;
+  --wind: #B0B0B0;
+  --white: #FDFCFA;
+  --dark: #3A3530;
+  --correct: #5A8C6E;
+  --wrong: #B0604A;
+  --gold: #C9A96E;
+}
+
+body {
+  font-family: 'Tajawal', sans-serif;
+  background: var(--breath);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* ─── SCREENS ─────────────────────────────── */
+.screen { display: none; width: 100%; max-width: 480px; min-height: 100vh; padding: 24px 20px 40px; }
+.screen.active { display: flex; flex-direction: column; }
+
+/* ─── HOME SCREEN ─────────────────────────── */
+#home-screen {
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  background: var(--breath);
+}
+
+.home-logo {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.logo-icon {
+  width: 80px; height: 80px;
+  background: var(--dark);
+  border-radius: 24px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 36px;
+}
+
+.home-title {
+  font-size: 3.2em;
+  font-weight: 700;
+  color: var(--dark);
+  letter-spacing: 1px;
+  font-family: 'Amiri', serif;
+  line-height: 1.4;
+}
+
+.home-subtitle {
+  font-size: 1em;
+  color: var(--smoke);
+  margin-top: 8px;
+  font-weight: 400;
+}
+
+.mode-cards {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.mode-card {
+  background: var(--white);
+  border: 1.5px solid var(--green-tea);
+  border-radius: 20px;
+  padding: 24px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-align: right;
+}
+
+.mode-card:active { transform: scale(0.98); }
+.mode-card:hover { border-color: var(--smoke); box-shadow: 0 6px 24px rgba(0,0,0,0.06); }
+
+.mode-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; flex-shrink: 0;
+}
+
+.mode-icon.meanings { background: var(--green-tea); }
+.mode-icon.speaker { background: var(--blush); }
+
+.mode-info { flex: 1; }
+.mode-title { font-size: 1.15em; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+.mode-desc { font-size: 0.85em; color: var(--smoke); font-weight: 400; }
+.mode-count { font-size: 0.78em; color: var(--wind); margin-top: 4px; }
+
+.home-stats {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.stat-box {
+  flex: 1;
+  background: var(--white);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  border: 1px solid var(--green-tea);
+}
+
+.stat-num { font-size: 1.6em; font-weight: 900; color: var(--dark); }
+.stat-label { font-size: 0.75em; color: var(--smoke); margin-top: 2px; }
+
+/* ─── LEVEL SCREEN ────────────────────────── */
+#level-screen { gap: 0; }
+
+.level-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.back-btn {
+  width: 40px; height: 40px;
+  background: var(--white);
+  border: 1.5px solid var(--green-tea);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 18px;
+  color: var(--smoke);
+  flex-shrink: 0;
+}
+
+.level-header-title { font-size: 1.2em; font-weight: 700; color: var(--dark); }
+
+.levels-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.level-card {
+  background: var(--white);
+  border: 1.5px solid var(--green-tea);
+  border-radius: 18px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.level-card:hover { border-color: var(--smoke); }
+.level-card:active { transform: scale(0.98); }
+.level-card.locked { opacity: 0.5; cursor: not-allowed; }
+
+.level-num {
+  width: 44px; height: 44px;
+  background: var(--breath);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1em; font-weight: 900; color: var(--dark);
+  flex-shrink: 0;
+}
+
+.level-info { flex: 1; }
+.level-name { font-size: 1em; font-weight: 700; color: var(--dark); }
+.level-detail { font-size: 0.82em; color: var(--smoke); margin-top: 3px; }
+
+.level-badge {
+  font-size: 0.75em;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.badge-easy { background: #E8F5EE; color: var(--correct); }
+.badge-medium { background: #FBF3E4; color: #B8862A; }
+.badge-hard { background: #FDECEA; color: var(--wrong); }
+.badge-locked { background: var(--breath); color: var(--wind); }
+
+/* ─── QUIZ SCREEN ─────────────────────────── */
+#quiz-screen { gap: 0; }
+
+.quiz-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.quiz-progress-info {
+  font-size: 0.85em;
+  color: var(--smoke);
+  font-weight: 500;
+}
+
+.quiz-score-badge {
+  background: var(--white);
+  border: 1.5px solid var(--green-tea);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 0.85em;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--green-tea);
+  border-radius: 4px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--dark);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.timer-ring {
+  width: 50px; height: 50px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.timer-ring svg { transform: rotate(-90deg); }
+.timer-ring circle { fill: none; stroke-width: 3; }
+.timer-bg { stroke: var(--green-tea); }
+.timer-fg { stroke: var(--dark); stroke-dasharray: 126; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear, stroke 0.3s; stroke-linecap: round; }
+.timer-text {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9em; font-weight: 700; color: var(--dark);
+}
+
+/* Verse card */
+.verse-card {
+  background: var(--white);
+  border-radius: 22px;
+  padding: 28px 24px;
+  margin-bottom: 20px;
+  border: 1.5px solid var(--green-tea);
+  position: relative;
+}
+
+.verse-source {
+  font-size: 0.75em;
+  color: var(--wind);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.verse-source::before {
+  content: '';
+  width: 3px; height: 3px;
+  background: var(--wind);
+  border-radius: 50%;
+}
+
+.verse-text {
+  font-size: 1.5em;
+  color: var(--dark);
+  line-height: 2;
+  font-weight: 500;
+  text-align: center;
+}
+
+.word-target {
+  color: var(--dark);
+  font-weight: 900;
+  background: var(--green-tea);
+  padding: 2px 8px;
+  border-radius: 8px;
+  position: relative;
+  display: inline-block;
+}
+
+.quiz-question {
+  font-size: 0.95em;
+  color: var(--smoke);
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+
+/* Options */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.opt-btn {
+  background: var(--white);
+  border: 1.5px solid var(--green-tea);
+  border-radius: 16px;
+  padding: 18px 20px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1.05em;
+  font-weight: 500;
+  color: var(--dark);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: right;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.opt-btn:hover:not(:disabled) {
+  border-color: var(--smoke);
+  background: var(--breath);
+}
+
+.opt-btn:active:not(:disabled) { transform: scale(0.99); }
+
+.opt-letter {
+  width: 28px; height: 28px;
+  background: var(--breath);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8em;
+  font-weight: 700;
+  color: var(--smoke);
+  flex-shrink: 0;
+}
+
+.opt-btn.correct { background: #EEF7F2; border-color: var(--correct); border-width: 2px; }
+.opt-btn.correct .opt-letter { background: var(--correct); color: white; }
+.opt-btn.wrong {
+  background: #C0392B !important;
+  border-color: #922B21 !important;
+  border-width: 2.5px;
+  color: #fff !important;
+}
+.opt-btn.wrong .opt-letter {
+  background: rgba(0,0,0,0.25) !important;
+  color: white !important;
+}
+.opt-btn.wrong .opt-text {
+  text-decoration: line-through;
+  text-decoration-color: rgba(255,255,255,0.6);
+}
+.opt-btn.dim { opacity: 0.35; }
+.opt-btn:disabled { cursor: default; }
+
+/* Knowledge card */
+.knowledge-card {
+  background: var(--blush);
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 16px;
+  display: none;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.kc-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.kc-icon { font-size: 1.2em; }
+
+.kc-result {
+  font-size: 0.95em;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.kc-text {
+  font-size: 0.9em;
+  color: #5A4A40;
+  line-height: 1.8;
+  font-weight: 400;
+}
+
+.next-btn {
+  width: 100%;
+  background: var(--dark);
+  color: var(--breath);
+  border: none;
+  border-radius: 16px;
+  padding: 18px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1.05em;
+  font-weight: 700;
+  cursor: pointer;
+  display: none;
+  transition: all 0.2s;
+  margin-top: 4px;
+}
+
+.next-btn:hover { background: #2A2520; }
+.next-btn:active { transform: scale(0.99); }
+
+/* ─── RESULT SCREEN ───────────────────────── */
+#result-screen {
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  text-align: center;
+}
+
+.result-icon { font-size: 64px; margin-bottom: 20px; }
+.result-title { font-size: 1.8em; font-weight: 900; color: var(--dark); margin-bottom: 8px; }
+.result-subtitle { font-size: 0.95em; color: var(--smoke); margin-bottom: 32px; }
+
+.result-score-card {
+  background: var(--white);
+  border: 1.5px solid var(--green-tea);
+  border-radius: 22px;
+  padding: 28px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.result-big-score {
+  font-size: 3.5em;
+  font-weight: 900;
+  color: var(--dark);
+  line-height: 1;
+}
+
+.result-score-label { font-size: 0.85em; color: var(--smoke); margin-top: 4px; }
+
+.result-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--green-tea);
+}
+
+.rs-item { text-align: center; }
+.rs-num { font-size: 1.4em; font-weight: 900; }
+.rs-label { font-size: 0.75em; color: var(--smoke); margin-top: 2px; }
+
+.result-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.result-dot {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75em;
+}
+
+.dot-correct { background: #EEF7F2; color: var(--correct); }
+.dot-wrong { background: #FAECEA; color: var(--wrong); }
+
+.result-actions { width: 100%; display: flex; flex-direction: column; gap: 12px; }
+
+.btn-primary {
+  width: 100%;
+  background: var(--dark);
+  color: var(--breath);
+  border: none;
+  border-radius: 16px;
+  padding: 18px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1.05em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary {
+  width: 100%;
+  background: var(--white);
+  color: var(--dark);
+  border: 1.5px solid var(--green-tea);
+  border-radius: 16px;
+  padding: 16px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+/* ─── UTILS ───────────────────────────────── */
+.fadeIn { animation: fadeInAnim 0.4s ease; }
+@keyframes fadeInAnim { from { opacity: 0; } to { opacity: 1; } }
+
+
+/* ── Quiz Screen Only ── */
+#quiz-screen.active {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  padding: 16px 20px 8px;
+}
+
+#quiz-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+#quiz-body::-webkit-scrollbar { display: none; }
+</style>
+</head>
+<body>
+
+
+
+
+<!-- ══════════════════════════════════════════ -->
+<!--  HOME SCREEN                               -->
+<!-- ══════════════════════════════════════════ -->
+<div id="home-screen" class="screen active">
+  <div class="home-logo">
+    <div class="home-title">أَثَرٌ يَبْقَى</div>
+    <div class="home-subtitle">تدبّر القرآن، يزدك إيماناً وأجراً</div>
+  </div>
+
+  <div class="mode-cards">
+    <div class="mode-card" onclick="showLevels('meanings')">
+      <div class="mode-icon meanings"><svg width="26" height="26" style="color:#3A3530"><use href="#ic-book"/></svg></div>
+      <div class="mode-info">
+        <div class="mode-title">تحدي المعاني</div>
+        <div class="mode-desc">اكتشف المعاني الصحيحة لكلمات تظنها تعرفها</div>
+
+      </div>
+    </div>
+    <div class="mode-card" onclick="showLevels('speaker')">
+      <div class="mode-icon speaker"><svg width="26" height="26" style="color:#3A3530"><use href="#ic-voice"/></svg></div>
+      <div class="mode-info">
+        <div class="mode-title">تحدي من القائل؟</div>
+        <div class="mode-desc">هل تعرف من قال هذه الآية في القرآن؟</div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="home-stats">
+    <div class="stat-box">
+      <div class="stat-num" id="stat-played">0</div>
+      <div class="stat-label">سؤال أجبت عنه</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="stat-correct">0</div>
+      <div class="stat-label">إجابة صحيحة</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="stat-streak">0</div>
+      <div class="stat-label">أفضل سلسلة</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!--  LEVEL SCREEN                              -->
+<!-- ══════════════════════════════════════════ -->
+<div id="level-screen" class="screen">
+  <div class="level-header">
+    <div class="back-btn" onclick="showScreen('home-screen')"><svg width="18" height="18" style="color:var(--smoke)"><use href="#ic-back"/></svg></div>
+    <div class="level-header-title" id="level-screen-title">اختر المستوى</div>
+  </div>
+  <div class="levels-grid" id="levels-grid"></div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!--  QUIZ SCREEN                               -->
+<!-- ══════════════════════════════════════════ -->
+<div id="quiz-screen" class="screen">
+  <div class="quiz-top">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="back-btn" onclick="exitQuiz()" style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--smoke)"><polyline points="15 18 9 12 15 6"/></svg></div>
+      <div class="quiz-progress-info" id="progress-info">السؤال 1 من 10</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="quiz-score-badge" style="display:flex;align-items:center;gap:5px;"><svg width="14" height="14" style="color:var(--gold)"><use href="#ic-star"/></svg><span id="score-display">0</span></div>
+      <div class="timer-ring">
+        <svg width="50" height="50" viewBox="0 0 50 50">
+          <circle class="timer-bg" cx="25" cy="25" r="20"/>
+          <circle class="timer-fg" id="timer-circle" cx="25" cy="25" r="20"/>
+        </svg>
+        <div class="timer-text" id="timer-text">20</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+
+  <div class="quiz-body" id="quiz-body">
+  <div class="verse-card">
+    <div class="verse-source" id="verse-source"></div>
+    <div class="verse-text" id="verse-text"></div>
+  </div>
+
+  <div class="quiz-question" id="quiz-question"></div>
+
+  <div class="options-list" id="options-list"></div>
+
+  <div class="knowledge-card" id="knowledge-card">
+    <div class="kc-header">
+      <div class="kc-icon" id="kc-icon">◉</div>
+      <div class="kc-result" id="kc-result"></div>
+    </div>
+    <div class="kc-text" id="kc-text"></div>
+  </div>
+
+  <button class="next-btn" id="next-btn" onclick="nextQuestion()">السؤال التالي →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!--  RESULT SCREEN                             -->
+<!-- ══════════════════════════════════════════ -->
+<div id="result-screen" class="screen">
+  <div class="result-icon" id="result-icon"></div>
+  <div class="result-title" id="result-title">ممتاز!</div>
+  <div class="result-subtitle" id="result-subtitle">أكملت الجولة</div>
+
+  <div class="result-score-card">
+    <div class="result-big-score" id="result-score">0</div>
+    <div class="result-score-label">نقطة</div>
+    <div class="result-stats">
+      <div class="rs-item">
+        <div class="rs-num" id="rs-correct" style="color:var(--correct)">0</div>
+        <div class="rs-label">صحيحة</div>
+      </div>
+      <div class="rs-item">
+        <div class="rs-num" id="rs-wrong" style="color:var(--wrong)">0</div>
+        <div class="rs-label">خاطئة</div>
+      </div>
+      <div class="rs-item">
+        <div class="rs-num" id="rs-pct" style="color:var(--gold)">0%</div>
+        <div class="rs-label">دقة</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-dots" id="result-dots"></div>
+
+  <div id="finish-msg" style="display:none;width:100%;background:var(--green-tea);border-radius:16px;padding:20px;text-align:center;margin-bottom:16px;">
+    <div style="font-size:1.4em;font-weight:900;color:var(--dark);">أنهيت جميع المستويات</div>
+  </div>
+  <div class="result-actions">
+    <button class="btn-primary" id="next-level-btn" onclick="nextLevel()" style="display:none;width:100%;background:var(--dark);color:var(--breath);border:none;border-radius:16px;padding:18px;font-family:Tajawal,sans-serif;font-size:1.05em;font-weight:700;cursor:pointer;margin-bottom:12px;">المستوى التالي ←</button>
+    <button class="btn-primary" id="replay-btn" onclick="replayQuiz()" style="display:flex;align-items:center;justify-content:center;gap:8px;"><svg width="18" height="18" style="color:var(--breath)"><use href="#ic-replay"/></svg> العب من جديد</button>
+
+    <button class="btn-secondary" onclick="shareResult()" style="display:flex;align-items:center;justify-content:center;gap:8px;">
+      <svg width="18" height="18" style="color:var(--dark)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      شارك نتيجتك
+    </button>
+    <button class="btn-secondary" onclick="showLevels(state.mode)" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;width:100%;background:var(--white);color:var(--dark);border:1.5px solid var(--green-tea);border-radius:16px;padding:15px;font-family:Tajawal,sans-serif;font-size:1em;font-weight:600;cursor:pointer;">← المستويات</button>
+    <button class="btn-secondary" onclick="showScreen('home-screen')" style="display:flex;align-items:center;justify-content:center;gap:8px;"><svg width="18" height="18" style="color:var(--dark)"><use href="#ic-home"/></svg> القائمة الرئيسية</button>
+  </div>
+</div>
+
+
+
+<script>
+const MEANINGS = [
+
+{ level:1, src:"يوسف: 19", v:"وَجَاءَتْ {سَيَّارَةٌ} فَأَرْسَلُوا وَارِدَهُمْ", q:"ما معنى (سيّارة) في الآية؟", o:["مركبة حديثة","قافلة مسافرين","آلة نقل سريعة"], c:1, k:"(سيّارة) في القرآن هي الجماعة من الناس الذين يسيرون في الطريق مسافرين. والقصة تحكي عن قافلة مرّت بالبئر التي ألقى فيها إخوة يوسف أخاهم." },
+{ level:1, src:"البقرة: 207", v:"وَمِنَ النَّاسِ مَن {يَشْرِي} نَفْسَهُ ابْتِغَاءَ مَرْضَاتِ اللَّهِ", q:"ما معنى (يشري)؟", o:["يشتري","يبيع","يهب ويعطي"], c:1, k:"(يشري) في العربية الفصحى تعني يبيع، وعكسها (يشتري) هي التي تعني التملك. المعنى: من الناس من يبيع نفسه ابتغاء مرضات الله." },
+
+{ level:1, src:"البقرة: 219", v:"وَيَسْأَلُونَكَ مَاذَا يُنفِقُونَ قُلِ {الْعَفْوَ}", q:"ما معنى (العفو) في الإنفاق؟", o:["الصفح والمغفرة","ما زاد عن الحاجة","أفضل ما تملك"], c:1, k:"(العفو) هنا يعني الفضل والزيادة عن الحاجة. أي أنفقوا ما زاد عن قدر حاجتكم من أموالكم." },
+{ level:1, src:"البقرة: 46", v:"الَّذِينَ {يَظُنُّونَ} أَنَّهُم مُّلَاقُو رَبِّهِمْ", q:"ما معنى (يظنون) هنا؟", o:["يشكون ويترددون","يتيقنون ويؤمنون","يتخيلون ويتمنون"], c:1, k:"(يظنون) هنا تعني يوقنون. وهذا استخدام فصيح في العربية القديمة. المعنى: الذين يوقنون أنهم سيلقون ربهم يوم القيامة." },
+{ level:1, src:"الجمعة: 5", v:"كَمَثَلِ الْحِمَارِ يَحْمِلُ {أَسْفَارًا}", q:"ما معنى (أَسفار) في الآية؟", o:["أمتعة السفر","الكتب الكبيرة","الرحلات الطويلة"], c:1, k:"الأسفار جمع سِفر، وهو الكتاب الكبير المليء بالعلم. والتشبيه: من يحمل التوراة دون أن يعمل بها كالحمار يحمل الكتب ولا يستفيد منها." },
+{ level:1, src:"النحل: 6", v:"وَلَكُمْ فِيهَا جَمَالٌ حِينَ {تُرِيحُونَ}", q:"ما معنى (تريحون)؟", o:["تستريحون وتنامون","تعودون بالمواشي مساءً","تسترخون في الظل"], c:1, k:"(تريحون) من الرَّواح وهو العودة مساءً. والآية تصف جمال الأنعام حين يعود بها أصحابها إلى منازلهم في المساء." },
+{ level:1, src:"الأعراف: 4", v:"فَجَاءَهَا بَأْسُنَا بَيَاتًا أَوْ هُمْ {قَائِلُونَ}", q:"ما معنى (قائلون)؟", o:["يتكلمون ويتجادلون","في وقت القيلولة نصف النهار","في وقت المساء"], c:1, k:"(قائلون) من القيلولة، وهي الراحة في منتصف النهار. أي أن العذاب أتاهم إما ليلاً في نومهم أو في غفلة الظهيرة." },
+{ level:1, src:"الكهف: 17", v:"وَ{تَقْرِضُهُمْ} ذَاتَ الشِّمَالِ", q:"ما معنى (تقرضهم)؟", o:["تقرصهم بحرارتها","تميل وتبتعد عنهم","تمنحهم ضوءها"], c:1, k:"(تقرضهم) تعني تميل عنهم وتتجاوزهم. أي أن الشمس كانت تنحرف عن مدخل الكهف فلا تصيبهم بحرها، كرامةً لأصحاب الكهف." },
+{ level:1, src:"يوسف: 63", v:"فَأَرْسِلْ مَعَنَا أَخَانَا {نَكْتَلْ}", q:"ما معنى (نكتل)؟", o:["هذا اسم الأخ المطلوب","نزداد كيلاً من الطعام","نكمل العدد"], c:1, k:"(نكتل) فعل مضارع يعني نزداد مكيالاً من الطعام. وإخوة يوسف طلبوا السماح لبنيامين بالسفر معهم كي يأخذوا نصيباً إضافياً." },
+{ level:1, src:"إبراهيم: 22", v:"مَا أَنَا {بِمُصْرِخِكُمْ} وَمَا أَنتُم بِمُصْرِخِيَّ", q:"ما معنى (بمصرخكم)؟", o:["بمنادٍ لكم","بمغيثكم ومنقذكم","بسامع صراخكم"], c:1, k:"هذا كلام الشيطان يوم القيامة. المُصرِخ هو المغيث الذي يستجيب للاستغاثة وينقذ. أي: لست بمغيثكم في ذلك اليوم." },
+{ level:1, src:"النور: 31", v:"وَلْيَضْرِبْنَ بِخُمُرِهِنَّ عَلَى {جُيُوبِهِنَّ}", q:"ما معنى (جيوبهن)؟", o:["جيوب الملابس للمال","صدورهن وأعناقهن","خبايا ثيابهن"], c:1, k:"الجيوب جمع جيب، والمراد الصدور والأعناق. والآية تأمر بإرخاء الخمار ليغطي الصدر، وليس الجيب الذي في الثياب اليوم." },
+{ level:1, src:"الأنعام: 142", v:"وَمِنَ الْأَنْعَامِ حَمُولَةً وَ{فَرْشًا}", q:"ما معنى (فرشاً) في الآية؟", o:["الفراش والبساط","صغار الإبل وقيل الغنم","حيوانات الركوب"], c:1, k:"(فرشاً) هي صغار الإبل وقيل الغنم، وهذا قول أكثر المفسرين. وليست من الفِراش الذي ينام عليه." },
+{ level:2, src:"البقرة: 233", v:"فَإِنْ أَرَادَا {فِصَالًا} عَن تَرَاضٍ مِّنْهُمَا", q:"ما معنى (فصالاً)؟", o:["الطلاق والانفصال","فطام الرضيع","الاتفاق والتراضي"], c:1, k:"(الفصال) هو فطام الصبي عن الرضاعة، وليس الطلاق. والآية تتكلم عن الرضاعة وتشاور الوالدين على فطام طفلهما." },
+{ level:2, src:"النساء: 90", v:"وَأَلْقَوْا إِلَيْكُمُ {السَّلَمَ}", q:"ما معنى (ألقوا إليكم السلم)؟", o:["سلّموا عليكم وحيّوكم","استسلموا وانقادوا لكم","عرضوا عليكم السلام"], c:1, k:"(ألقوا السلم) تعني استسلموا وانقادوا طائعين. وليس إلقاء تحية السلام." },
+{ level:2, src:"آل عمران: 152", v:"إِذْ تَ{حُسُّونَهُم} بِإِذْنِهِ", q:"ما معنى (تحسونهم)؟", o:["تحسّون بهم وتشعرون","تقتلونهم قتلاً ذريعاً","تطاردونهم وتلاحقونهم"], c:1, k:"(تحسونهم) تعني تقتلونهم قتلاً ذريعاً وتستأصلونهم. وليست من الإحساس والشعور. والآية تصف غزوة أحد." },
+{ level:2, src:"الأنبياء: 87", v:"فَظَنَّ أَن لَّن {نَّقْدِرَ} عَلَيْهِ", q:"ما معنى (نقدر عليه) في قصة يونس؟", o:["لن نستطيع عقابه","لن نضيق عليه","لن ندركه"], c:1, k:"(نقدر) هنا من التقدير بمعنى التضييق. فالمعنى: ظن يونس ألن يضيق الله عليه. وقد تاب وعاد إليه. وليس المراد الشك في قدرة الله — حاشا لله." },
+{ level:2, src:"الانشقاق: 2", v:"وَ{أَذِنَتْ} لِرَبِّهَا وَحُقَّتْ", q:"ما معنى (أذنت) للسماء؟", o:["أعطت الإذن والسماح","استمعت وانقادت","أذاعت الخبر"], c:1, k:"(أذنت) تعني استمعت لأمر ربها وانقادت له. وهذا وصف للسماء يوم القيامة حين تنشق وتطيع أمر الله." },
+{ level:2, src:"الأعراف: 176", v:"{إِن تَحْمِلْ عَلَيْهِ يَلْهَثْ}", q:"ما معنى (إن تحمل عليه)؟", o:["إن وضعت حملاً عليه","إن طردته وزجرته","إن تركته يمشي"], c:1, k:"(حمل عليه) تعني طرده وزجره. والآية تشبّه من انسلخ من آيات الله بالكلب الذي يلهث سواء طردته أو تركته." },
+{ level:2, src:"التوبة: 56", v:"وَلَٰكِنَّهُمْ قَوْمٌ {يَفْرَقُونَ}", q:"ما معنى (يفرقون)؟", o:["يتفرقون ويتشتتون","يخافون خوفاً شديداً","يتحيزون لجهة"], c:1, k:"(يفرقون) من الفَرَق وهو الخوف الشديد. وليست من التفرق والانقسام. والمنافقون يحلفون أنهم مع المؤمنين لكنهم في الحقيقة يخافون." },
+{ level:2, src:"الأنفال: 2", v:"إِذَا {ذُكِرَ} اللَّهُ وَجِلَتْ قُلُوبُهُمْ", q:"ما المقصود بـ(ذُكر الله) هنا؟", o:["ترديد الأذكار باللسان","تذكر الله فيكف عن المعصية","سماع آيات القرآن"], c:1, k:"قال السدي: هو الرجل يهمّ بالمعصية فيتذكر الله فيكف عنها. فليس مجرد ترديد الكلام، بل تذكّر الله في لحظة الغفلة." },
+{ level:2, src:"البقرة: 25", v:"وَإِذَا أَظْلَمَ عَلَيْهِمْ {قَامُوا}", q:"ما معنى (قاموا) هنا؟", o:["وقفوا من الجلوس","ثبتوا في مكانهم متحيرين","أسرعوا في المشي"], c:1, k:"(قاموا) هنا تعني ثبتوا في مكانهم متحيرين. وله شواهد: (ومن آياته أن تقوم السماء والأرض بأمره) أي تثبت." },
+{ level:2, src:"طه: 18", v:"وَأَ{هُشُّ} بِهَا عَلَىٰ غَنَمِي", q:"ما معنى (أهش بها)؟", o:["أزجر الغنم وأردها","أضرب الشجر لتسقط أوراقه","أتكئ عليها مستريحاً"], c:1, k:"(الهش) هو ضرب أغصان الشجر بالعصا لتتساقط أوراقها لتأكلها الغنم. وهذا يُظهر رعاية موسى وحنانه على غنمه." },
+{ level:2, src:"الأعراف: 92", v:"كَأَن لَّمْ {يَغْنَوْا} فِيهَا", q:"ما معنى (يغنوا)؟", o:["لم يتغنوا ويطربوا","لم يقيموا فيها ويسكنوا","لم يثروا ويغتنوا"], c:1, k:"(يغنوا) تعني يقيمون ويسكنون. المعنى: كأنهم لم يسكنوا في تلك الديار أصلاً. وهو وصف للأمم التي هلكت بذنوبها." },
+{ level:2, src:"الأعراف: 95", v:"حَتَّىٰ {عَفَوا} وَّقَالُوا قَدْ مَسَّ آبَاءَنَا", q:"ما معنى (عَفَوا)؟", o:["صفحوا وغفروا","كثروا وتوالدوا","ماتوا وهلكوا"], c:1, k:"(عفوا) هنا تعني كثروا وتوالدوا. ومنه حديث: (أعفوا اللحى) أي أتركوها تكثر. لما رُفع البلاء كثروا ونسوا المحنة." },
+{ level:2, src:"الأنفال: 48", v:"وَإِنِّي {جَارٌ} لَّكُمْ", q:"ما معنى قول الشيطان (جار لكم)؟", o:["مقيم بجوارهم","مجيرهم وحاميهم","شريكهم ومعاونهم"], c:1, k:"(الجار) هنا من الجِوار والحماية. أي: أنا حاميكم وأنتم في ذمتي. لكنه لما رأى الملائكة فرّ وتبرأ منهم." },
+{ level:3, src:"التوبة: 102", v:"{عَسَى} اللَّهُ أَن يَتُوبَ عَلَيْهِمْ", q:"ما دلالة (عسى) من الله؟", o:["الشك وعدم اليقين","التوقع والأمل فقط","الإيجاب المؤكد"], c:2, k:"عسى من الله واجبة. قال المفسرون: لأن من أطمع إنساناً ثم حرمه كان عاراً، والله أكرم من أن يُطمع ثم يخذل. فهذا وعد مؤكد." },
+{ level:3, src:"السجدة: 10", v:"أَإِذَا {ضَلَلْنَا} فِي الْأَرْضِ", q:"ما معنى (ضللنا في الأرض)؟", o:["ضعنا وتهنا في المسالك","متنا وصرنا تراباً","أخطأنا وعصينا"], c:1, k:"(ضللنا) هنا تعني متنا وصرنا تراباً واختلطنا بالأرض. يقوله الكفار منكرين البعث، وليس المراد ضياع الطريق." },
+{ level:3, src:"الأنبياء: 104", v:"يَوْمَ نَطْوِي السَّمَاءَ كَطَيِّ السِّجِلِّ لِ{لْكُتُبِ}", q:"ما معنى (الكتب) هنا؟", o:["جمع كتاب","المكتوب في الصحيفة","الأسماء المسجلة"], c:1, k:"(الكتب) هنا تعني المكتوب في السجل والسجل هو الصحيفة. المعنى: نطوي السماء كما تُطوى الصحيفة على ما كُتب فيها." },
+{ level:3, src:"النساء: 43", v:"أَوْ جَاءَ أَحَدٌ مِّنكُم مِّنَ {الْغَائِطِ}", q:"ما معنى (الغائط)؟", o:["قضاء الحاجة مباشرة","مكان قضاء الحاجة المنخفض","النجاسة والقذر"], c:1, k:"الغائط هو المكان المنخفض حيث كانوا يقضون الحاجة بعيداً عن الأنظار. والله كنّى بالمكان عن الفعل احتشاماً." },
+{ level:3, src:"التوبة: 106", v:"وَآخَرُونَ {مُرْجَوْنَ} لِأَمْرِ اللَّهِ", q:"ما معنى (مُرجون)؟", o:["مُرجون من الرجاء والأمل","مؤخَّرون لأمر الله","منبوذون ومطرودون"], c:1, k:"(مُرجون) من أرجأ أي أخّر. أي مؤخَّرون لحكم الله فيهم. وليست من الرجاء. قال القرطبي: من أرجأته أي أخرته." },
+{ level:3, src:"الأعراف: 130", v:"وَلَقَدْ أَخَذْنَا آلَ فِرْعَوْنَ بِ{السِّنِينَ}", q:"ما معنى (بالسنين)؟", o:["بالأعوام والمدة الطويلة","بالقحط والجدب","بالحروب والصراعات"], c:1, k:"(السنين) هنا بمعنى القحط والجدب. وليست الأعوام المعروفة. ابتلاهم الله بالجفاف لأن الشدائد ترقق القلوب وتدفع للرجوع إلى الله." },
+{ level:3, src:"الأنفال: 48", v:"وَقَالَ لَا غَالِبَ لَكُمُ الْيَوْمَ وَإِنِّي {جَارٌ} لَّكُمْ", q:"ثم فرّ الشيطان لما رأى الملائكة. ما كان يعني بـ(جار)؟", o:["صديق مقيم بجوارهم","حامٍ ومُجير في ذمته","مراقب من بعيد"], c:1, k:"(جار) من الجِوار أي الحماية. قال: أنتم في ذمتي وحمايتي. لكنه لما رأى الملائكة قال: إني بريء منكم. درس في خداع الشيطان." },
+{ level:3, src:"مريم: 23", v:"فَأَجَاءَهَا {الْمَخَاضُ} إِلَىٰ جِذْعِ النَّخْلَةِ", q:"ما معنى (فأجاءها المخاض)؟", o:["فأتاها المخاض","فألجأها واضطرها المخاض","فجاء مع المخاض"], c:1, k:"(أجاءها) تعني ألجأها واضطرها المخاض إلى الجذع. وليست (أتاها). وهذه اللفظة تُعبّر عن شدة الألم الذي أجبر مريم على التمسك بالجذع." },
+{ level:3, src:"الكهف: 28", v:"بِ{الْغَدَاةِ} وَالْعَشِيِّ", q:"ما معنى (الغداة) بالتحديد؟", o:["من الفجر حتى طلوع الشمس","وقت الضحى","أول النهار حتى الظهر"], c:0, k:"الغداة هي أول النهار من طلوع الفجر حتى طلوع الشمس." },
+{ level:3, src:"النجم: 22", v:"تِلْكَ إِذًا قِسْمَةٌ {ضِيزَىٰ}", q:"ما معنى (ضيزى)؟", o:["قسمة عادلة ومقبولة","قسمة جائرة وظالمة","قسمة غريبة ومفاجئة"], c:1, k:"(ضيزى) أي جائرة غير عادلة. وردت في الرد على من جعلوا لله البنات ولأنفسهم البنين. وهي كلمة نادرة من أقوى الردود القرآنية." },
+{ level:3, src:"المسد: 5", v:"فِي {جِيدِهَا} حَبْلٌ مِّن مَّسَدٍ", q:"ما معنى (جيدها)؟", o:["يدها","عنقها","ظهرها"], c:1, k:"الجيد هو العنق. وامرأة أبي لهب ستحمل في عنقها حبلاً من مسد (ليف النخل) يوم القيامة، جزاءً على حملها الأشواك في طريق النبي ﷺ." },
+{ level:3, src:"إبراهيم: 43", v:"{مُهْطِعِينَ} مُقْنِعِي رُءُوسِهِمْ", q:"ما معنى (مهطعين)؟", o:["خاشعين ساجدين","مسرعين لا يطرفون","مذعورين واقفين"], c:1, k:"المهطع هو المسرع الذي يمد عنقه ولا يطرف من هول ما يرى. وصف الناس يوم القيامة وهم يسرعون إلى المحشر في رهبة شديدة." },
+{ level:3, src:"الكهف: 29", v:"يُغَاثُوا بِمَاءٍ كَالْ{مُهْلِ}", q:"ما معنى (المُهل)؟", o:["الماء المالح المرّ","المعدن الذائب أو الزيت المغلي","الرماد الساخن"], c:1, k:"المُهل هو عكر الزيت أو المعادن المذابة. وهو وصف لشراب أهل النار: ماء شديد الحرارة كالمعدن الذائب. نسأل الله العافية." },
+{ level:4, src:"الحجر: 15", v:"لَ{سُكِّرَتْ} أَبْصَارُنَا", q:"ما معنى (سُكِّرت أبصارنا)؟", o:["أصيبت بالسكر والدوار","سُدّت وأُغلقت عن الرؤية","خُدعت بالسحر"], c:1, k:"(سُكِّرت) أي سُدّت وأُغلقت. من السَّكر بمعنى السد. والآية: لو فتحنا للكفار باباً في السماء لقالوا سُدّت أبصارنا فلا نرى." },
+{ level:4, src:"الفجر: 9", v:"الَّذِينَ {جَابُوا} الصَّخْرَ بِالْوَادِ", q:"ما معنى (جابوا الصخر)؟", o:["أحضروا الصخر","نحتوا وخرقوا الصخر","باعوا وتاجروا بالصخر"], c:1, k:"(جابوا) أي نحتوا وخرقوا الصخر. وصف لقوم ثمود الذين كانوا ينحتون بيوتهم في الجبال. وجاب في العربية تعني قطع وخرق." },
+{ level:4, src:"الزخرف: 32", v:"لِيَتَّخِذَ بَعْضُهُم بَعْضًا {سُخْرِيًّا}", q:"ما معنى (سُخريّاً) بضم السين؟", o:["للسخرية والاستهزاء","للتسخير والخدمة في المعاش","للمحبة والتعاون"], c:1, k:"بضم السين من التسخير أي الخدمة. رفع الله بعضهم فوق بعض في الرزق ليخدم بعضهم بعضاً. أما بكسر السين فهي السخرية والهزء — كلمتان مختلفتان." },
+{ level:4, src:"الذاريات: 47", v:"وَالسَّمَاءَ بَنَيْنَاهَا بِ{أَيْيدٍ}", q:"ما معنى (بأييد)؟", o:["بأياد كثيرة جمع يد","بقوة وشدة","بإتقان ودقة"], c:1, k:"(بأييد) مصدر من (آد يئيد) أي اشتد وقوي. وهو قول عامة المفسرين. المعنى: بنينا السماء بقوة عظيمة. وليست جمع يد." },
+{ level:4, src:"الرحمن: 14", v:"خَلَقَ الْإِنسَانَ مِن {صَلْصَالٍ}", q:"ما معنى (صلصال)؟", o:["الصلصال الطري للفخار","الطين اليابس ذو الصوت","رمل الصحراء"], c:1, k:"الصلصال هو الطين اليابس الذي له صلصلة عند الطرق. وليس الطين الطري المستخدم للفخار. وهو وصف لأصل خلق آدم عليه السلام." },
+{ level:4, src:"الممتحنة: 4", v:"وَ{بَدَا} بَيْنَنَا وَبَيْنَكُمُ الْعَدَاوَةُ", q:"ما معنى (بدا)؟", o:["بدأ وابتدأ","ظهر وتجلّى","نما وكبر"], c:1, k:"(بدا) تعني ظهر، من البدو والظهور. وليست (بدأ) من الابتداء. وهذا من الآيات التي كثيراً ما تُقرأ وتُفهم بالمعنى الخاطئ." },
+{ level:4, src:"النازعات: 28", v:"رَفَعَ {سَمْكَهَا} فَسَوَّاهَا", q:"ما معنى (سَمكها) بفتح السين؟", o:["سُمكها وغِلظها وكثافتها","ارتفاعها وعلوها","سقفها المزيّن"], c:1, k:"بفتح السين تعني الارتفاع والعلو. أما بضم السين فتعني الغِلظ والكثافة. والآية: رفع الله ارتفاع السماء وسوّاها في حسن وكمال." },
+{ level:4, src:"يوسف: 31", v:"وَ{قَطَّعْنَ} أَيْدِيَهُنَّ", q:"ما المعنى الدقيق لـ(قطّعن أيديهن)؟", o:["قطعن أيديهن بتراً تاماً","جرحن أيديهن بالسكاكين","أسقطن السكاكين من أيديهن"], c:1, k:"جرحن أيديهن من شدة الذهول بجمال يوسف." },
+{ level:4, src:"الأعراف: 53", v:"هَلْ يَنظُرُونَ إِلَّا {تَأْوِيلَهُ}", q:"ما معنى (تأويله) هنا؟", o:["تفسيره وشرحه","ما يؤول إليه أمرهم يوم القيامة","ترجمته وتوضيحه"], c:1, k:"(التأويل) هنا يعني ما يؤول إليه أمرهم: الجنة أو النار يوم القيامة. وليس معناها التفسير. وقوله: (يوم يأتي تأويله) أي يوم تتحقق نتيجته." },
+{ level:4, src:"القيامة: 5", v:"بَلْ يُرِيدُ الْإِنسَانُ لِ{يَفْجُرَ} أَمَامَهُ", q:"ما معنى (ليفجر أمامه)؟", o:["ليُهلك ما أمامه","أن يبقى فاجراً فيما تبقى من عمره","ليُسرع ولا يتوقف"], c:1, k:"(ليفجر أمامه) أي يريد أن يبقى فاجراً فيما استقبل من عمره مؤخراً التوبة. قال ابن جبير: يقول سوف أتوب، حتى يأتيه الموت على شر حاله." },
+{ level:4, src:"النحل: 59", v:"أَيُمْسِكُهُ عَلَىٰ {هُونٍ}", q:"ما معنى (على هون)؟", o:["على مهل وتأنٍّ","على هوان وذل","على رضا ومحبة"], c:1, k:"(هون) هنا بمعنى هوان وذل. أي يُبقي البنت حية على هوان وإهانة. وليس على مهل وتأنٍّ. وهذا وصف لحال الجاهلية مع البنات." },
+{ level:4, src:"التكوير: 21", v:"مُطَاعٍ {ثَمَّ} أَمِينٍ", q:"ما معنى (ثَمَّ) بفتح الثاء؟", o:["ثُمَّ للعطف","هناك في السماوات","في ذلك الوقت"], c:1, k:"(ثَمَّ) بفتح الثاء تعني (هناك). أي جبريل مطاع هناك في السماوات. أما (ثُمَّ) بضم الثاء فهي للعطف. كلمتان مختلفتان تماماً في المعنى." },
+{ level:4, src:"الإنشقاق: 23", v:"وَاللَّهُ أَعْلَمُ بِمَا {يُوعُونَ}", q:"ما معنى (يوعون)؟", o:["يوعون من الوعي والإدراك","يجمعون في قلوبهم ويُضمرون","يفهمون ويدركون"], c:1, k:"(يوعون) من الوِعاء أي يجمعون ويُضمرون في قلوبهم. وليست من الوعي والإدراك. الله يعلم ما يُخفونه في قلوبهم." },
+{ level:5, src:"الفجر: 16", v:"فَقَدَرَ عَلَيْهِ {رِزْقَهُ}", q:"ما معنى (فقدر عليه رزقه)؟", o:["قَدَر على رزقه وكسبه","ضيّق عليه رزقه وقلّله","قدّر له رزقاً محدداً"], c:1, k:"(قَدَرَ) هنا تعني ضيّق وقلّل. وليست من القدرة والاستطاعة. والمعنى: ضيّق الله عليه رزقه فيظن أن الله يهانه." },
+{ level:5, src:"التين: 6", v:"فَلَهُمْ أَجْرٌ غَيْرُ {مَمْنُونٍ}", q:"ما معنى (غير ممنون)؟", o:["بغير منّة ولا فضل","غير مقطوع ودائم","غير معلوم المقدار"], c:1, k:"(غير ممنون) أي غير مقطوع. وليست بغير منّة — بل لله المنّة على أهل الجنة دائماً. والمعنى: أجر لا ينقطع ولا ينتهي." },
+{ level:5, src:"العاديات: 8", v:"وَإِنَّهُ لِحُبِّ {الْخَيْرِ} لَشَدِيدٌ", q:"ما معنى (الخير) هنا؟", o:["أعمال البر والصلاح","المال والثروة","الصحة والعافية"], c:1, k:"(الخير) في هذه الآية يعني المال. أي أن الإنسان شديد الحب للمال. وهذا الاستخدام وارد في العربية كثيراً، ومنه: (إن ترك خيراً) أي مالاً." },
+{ level:5, src:"الجن: 3", v:"وَأَنَّهُ تَعَالَىٰ {جَدُّ} رَبِّنَا", q:"ما معنى (جدّ ربنا)؟", o:["جَدّه وسلفه","عظمته وجلاله","جِدّه وعدم هزله"], c:1, k:"(جَدّ) هنا يعني العظمة والجلال. أي تعالت عظمة ربنا. وليست من الجَدّ ضد الهزل (بكسر الجيم) ولا من جَدّ النسب." },
+{ level:5, src:"سبأ: 18", v:"وَقَدَّرْنَا فِيهَا {السَّيْرَ}", q:"ما معنى (قدّرنا فيها السير)؟", o:["كتبنا وقضينا السير","جعلنا السير موزعاً بمسافات محددة بين القرى","أمرنا بالسير فيها"], c:1, k:"(قدّرنا السير) أي جعلناه مقدراً بمسافات محددة من منزل إلى منزل، فلا يحتاج المسافر لزاد." },
+{ level:5, src:"الصافات: 141", v:"فَ{سَاهَمَ} فَكَانَ مِنَ الْمُدْحَضِينَ", q:"ما معنى (ساهم)؟", o:["شارك وأسهم","اقترع وكانت القرعة عليه","تسابق وخسر"], c:1, k:"(ساهم) تعني اقترع. أي يونس عليه السلام اقترع مع أهل السفينة فوقعت القرعة عليه فأُلقي في البحر." },
+{ level:5, src:"الزمر: 39", v:"قُلْ يَا قَوْمِ اعْمَلُوا عَلَىٰ {مَكَانَتِكُمْ}", q:"ما معنى (مكانتكم)؟", o:["قدرتكم وطاقتكم","حالكم وطريقتكم (للتهديد)","مكانكم وموضعكم"], c:1, k:"(مكانتكم) تعني حالكم وطريقتكم. وهذا تهديد إلهي أي: اعملوا على ما أنتم عليه. وليست المكانة بمعنى القدر والمنزلة." },
+{ level:5, src:"الأحقاف: 4", v:"أَم لَهُمْ {شِرْكٌ} فِي السَّمَاوَاتِ", q:"ما معنى (شرك) هنا؟", o:["عبادة غير الله","نصيب وحصة في الخلق","شراكة تجارية"], c:1, k:"(الشرك) هنا بمعنى الحصة والنصيب. أي: هل لهم نصيب في خلق السموات؟ وليس الشرك بالمعنى العقدي." },
+{ level:5, src:"النساء: 101", v:"إِنْ خِفْتُمْ أَن {يَفْتِنَكُمُ} الَّذِينَ كَفَرُوا", q:"ما معنى (يفتنكم) هنا؟", o:["يضلّوكم عن دينكم","يعتدوا عليكم","يخدعوكم بالمال"], c:1, k:"(يفتنكم) هنا تعني يعتدوا عليكم ويهاجموكم. فإن خفتم اعتداءهم جاز لكم قصر الصلاة. وليست الفتنة هنا بمعنى الإضلال عن الدين." },
+{ level:5, src:"المائدة: 19", v:"عَلَىٰ {فَتْرَةٍ} مِّنَ الرُّسُلِ", q:"ما معنى (فترة) هنا؟", o:["مدة زمنية طويلة","سكون وانقطاع بعد حركة","فجوة ومسافة"], c:1, k:"(الفترة) تعني السكون بعد الحركة والانقطاع بعد الاتصال. وبين عيسى ومحمد عليهما السلام قرابة 600 سنة من الفتور عن الوحي وليست مجرد مدة زمنية." },
+{ level:5, src:"الأنعام: 8", v:"لَقُضِيَ الْأَمْرُ ثُمَّ لَا {يُنظَرُونَ}", q:"ما معنى (لا يُنظرون)؟", o:["لا يُنظر إليهم","لا يُؤخَّرون ولا يُمهَلون","لا يُشاور في أمرهم"], c:1, k:"(ينظرون) هنا من الإنظار بمعنى التأخير والإمهال. أي لا يُعطَون مهلة. وليست من النظر بالعيون." },
+{ level:5, src:"النحل: 59", v:"أَيُمْسِكُهُ عَلَىٰ {هُونٍ}", q:"ما معنى (هون) في الآية؟", o:["على مهل وتأنٍّ","على هوان وذل","على خوف وحذر"], c:1, k:"(هون) بمعنى هوان وذل، أي يُبقي البنت حية على هوان. وهذا وصف لموقف الجاهلية من البنات، وليست (على هون) أي على مهل وتأنٍّ." },
+{ level:5, src:"الأعراف: 21", v:"وَ{قَاسَمَهُمَا} إِنِّي لَكُمَا لَمِنَ النَّاصِحِينَ", q:"ما معنى (قاسمهما)؟", o:["قسّم بينهما","حلف لهما قَسَماً","شاركهما في شيء"], c:1, k:"(قاسمهما) من القَسَم أي حلف لهما الشيطان. وليست من القِسمة والتوزيع. فالشيطان أقسم لآدم وحواء أنه ناصح لهما." },
+{ level:6, src:"القصص: 51", v:"وَلَقَدْ {وَصَّلْنَا} لَهُمُ الْقَوْلَ", q:"ما معنى (وصّلنا لهم القول)؟", o:["أوصلناه إليهم وأبلغناهم","أنزلناه متواصلاً متتابعاً","فصّلناه وشرحناه"], c:1, k:"(وصّلنا) أي أنزلنا القرآن متواصلاً متتابعاً لا دفعة واحدة. وليس المراد أنه أُوصل إليهم من الإيصال. والقرآن نزل منجّماً على مدى 23 سنة." },
+{ level:6, src:"الأحزاب: 53", v:"غَيْرَ {نَاظِرِينَ} إِنَاهُ", q:"ما معنى (غير ناظرين إناه)؟", o:["غير مبصرين الإناء","غير منتظرين نضج الطعام","غير ملتفتين لأحد"], c:1, k:"(ناظرين) هنا بمعنى منتظرين. و(إناه) أي نضجه. أي لا تدخلوا بيت النبي منتظرين نضج الطعام فتثقلوا عليه. وليست من النظر بالعين." },
+{ level:6, src:"يوسف: 65", v:"قَالُوا يَا أَبَانَا مَا {نَبْغِي}", q:"ما معنى (ما نبغي)؟", o:["ما نريد شيئاً فوق هذا","ما نعتدي ونظلم","ما نكذب في حديثنا"], c:0, k:"(ما نبغي) أي أي شيء نطلب بعد هذا الإكرام؟ حيث وُفّي لهم الكيل ورُدّت بضاعتهم. وليست من البغي والعدوان كما قد يُتوهم." },
+{ level:6, src:"الأنفال: 48", v:"فَلَمَّا تَرَاءَتِ الْفِئَتَانِ {نَكَصَ}", q:"ما معنى (نكص) بعد أن رأى الفئتين؟", o:["هرب وفرّ سريعاً","رجع على عقبيه","اختبأ وتوارى"], c:1, k:"(نكص) يعني رجع إلى الخلف. والشيطان لما رأى الملائكة نكص هارباً وقال: إني أرى ما لا ترون." },
+{ level:6, src:"النساء: 49", v:"وَيُسْتَحْيَوْنَ نِسَاءَكُمْ", q:"ما معنى (يستحيون نساءكم)؟", o:["يستحون من النساء","يتركونهن أحياءً ولا يقتلونهن","يطلبون العفو منهن"], c:1, k:"(يستحيون) من الحياة لا من الحياء. أي يتركون النساء على قيد الحياة ولا يقتلونهن كما كانوا يقتلون الأبناء. وهو وصف لظلم فرعون." },
+{ level:6, src:"آل عمران: 153", v:"إِذْ {تُصْعِدُونَ} وَلَا تَلْوُونَ", q:"ما معنى (تُصعدون)؟", o:["تصعدون الجبل","تمضون مبتعدين في الأرض","تعلون وترتفعون"], c:1, k:"(تُصعدون) من الإصعاد وهو السير المُبعِد في الأرض. وليس الصعود على الجبل. والآية تصف انسحاب المسلمين في غزوة أحد مبتعدين." },
+{ level:6, src:"الأنبياء: 104", v:"يَوْمَ نَطْوِي السَّمَاءَ كَطَيِّ {السِّجِلِّ}", q:"ما هو (السِّجِل)؟", o:["كتاب ضخم معروف","الصحيفة التي تُطوى","ملَك اسمه السجل"], c:1, k:"السجل هو الصحيفة التي يُكتب فيها. والمعنى: نطوي السماء كما تُطوى الصحيفة على ما كُتب فيها. صورة بديعة لعظمة يوم القيامة." },
+{ level:6, src:"الإسراء: 75", v:"إِذًا لَّأَذَقْنَاكَ {ضِعْفَ} الْحَيَاةِ وَضِعْفَ الْمَمَاتِ", q:"ما معنى (ضِعف) بكسر الضاد؟", o:["الضعف ضد القوة","مثليْ العذاب ومضاعفته","نصف العذاب"], c:1, k:"(ضِعف) بكسر الضاد تعني المثل والمضاعفة. أي مثلَي عذاب الحياة ومثلَي عذاب الممات. وليست الضَعف بفتح الضاد الذي هو ضد القوة." },
+{ level:6, src:"لقمان: 18", v:"وَلَا تَمْشِ فِي الْأَرْضِ {مَرَحًا}", q:"ما معنى (مرحاً)؟", o:["فرحاً وسروراً","خيلاءً وتكبراً","سريعاً ومتسرعاً"], c:1, k:"(مرحاً) تعني مختالاً متكبراً. وقيل: المشي في غير شغل ولغير حاجة. وليس المرح بمعنى السرور والفرح على قول أكثر المفسرين." },
+{ level:6, src:"لقمان: 19", v:"وَ{اقْصِدْ} فِي مَشْيِكَ", q:"ما معنى (اقصد في مشيك)؟", o:["اتجه نحو هدفك","توسّط بين السرعة والبطء","تأنَّ وتمهّل"], c:1, k:"(اقصد) تعني توسّط. أي ليكن مشيك وسطاً بين البطء الشديد والإسراع الشديد. وليست القصد بمعنى تحديد الهدف أو التمهل." },
+{ level:6, src:"الزخرف: 66", v:"هَلْ {يَنظُرُونَ} إِلَّا السَّاعَةَ", q:"ما معنى (ينظرون) هنا؟", o:["يرون ويشاهدون","ينتظرون ويترقبون","يتأملون ويتفكرون"], c:1, k:"(ينظرون) هنا تعني ينتظرون وليس يرون. وهذا الاستخدام كثير في القرآن. ومنه: (هل ينظرون إلا أن يأتيهم الله في ظلل من الغمام) أي ينتظرون." },
+{ level:6, src:"الشورى: 50", v:"أَوْ {يُزَوِّجُهُمْ} ذُكْرَانًا وَإِنَاثًا", q:"ما معنى (يزوّجهم) هنا؟", o:["يُنكحهم ويُزوّجهم","يمنحهم ويهبهم مختلطين","يجمعهم ويضمّهم"], c:1, k:"(يزوّجهم) تعني يهبهم ويمنحهم أولاداً مختلطين من ذكور وإناث. وليس الزواج المعروف. فالله يهب لمن يشاء بناتٍ وبنين." },
+{ level:7, src:"الحج: 36", v:"فَإِذَا {وَجَبَتْ} جُنُوبُهَا", q:"ما معنى (وجبت جنوبها)؟", o:["وجب نحرها وصار فرضاً","سقطت على جنوبها بعد النحر","اطمأنت وهدأت"], c:1, k:"(وجبت) أي سقطت على جنوبها بعد النحر. والإبل تُنحر وهي قائمة فتسقط. وليس الوجوب بمعنى الفرض والإلزام." },
+{ level:7, src:"الحج: 27", v:"يَأْتُوكَ {رِجَالًا} وَعَلَىٰ كُلِّ ضَامِرٍ", q:"ما معنى (رجالاً) هنا؟", o:["ذكوراً لا إناث","مشاةً على أقدامهم","أقوياء وشجعان"], c:1, k:"(رجالاً) تعني مشاةً على أقدامهم. فالمعنى: يأتوك مشاةً وعلى الإبل الهزيلة من طول السفر. وليس المراد الذكور تحديداً." },
+{ level:7, src:"الإسراء: 13", v:"وَكُلَّ إِنسَانٍ أَلْزَمْنَاهُ {طَائِرَهُ} فِي عُنُقِهِ", q:"ما معنى (طائره) في هذه الآية؟", o:["طائر حقيقي في عنقه","عمله من خير وشر","حظه وقدره"], c:1, k:"(طائره) يعني عمله وما قدّم من خير أو شر. وهو ملازم له في عنقه. وليس طائراً يطير. وكانت العرب تتفاءل وتتشاءم بالطير فجاءت الآية بهذه الصورة." },
+{ level:7, src:"الأعراف: 176", v:"وَلَٰكِنَّهُ أَخْلَدَ إِلَى {الْأَرْضِ}", q:"ما معنى (أخلد إلى الأرض)؟", o:["عاش طويلاً في الأرض","مال ورَكَن إلى الدنيا","سجد وانبطح على الأرض"], c:1, k:"(أخلد إلى الأرض) أي مال وركن إلى الدنيا وحبّها. وهو وصف لمن آثر الدنيا على الآخرة. يقال: خَلَد الرجل إذا مال إلى الدنيا ورغب في البقاء." },
+{ level:7, src:"النمل: 10", v:"فَلَمَّا رَآهَا تَهْتَزُّ كَأَنَّهَا {جَانٌّ}", q:"ما معنى (جانّ) هنا؟", o:["جنيّ من الجن","نوع من الحيات سريع الحركة","كائن مخيف"], c:1, k:"(الجانّ) هنا نوع من الحيات يتميز بسرعة حركته. وليس من الجن قسيم الإنس. وعصا موسى تحولت وتحركت بسرعة فشُبّهت بهذا النوع من الحيات." },
+{ level:7, src:"الصافات: 94", v:"فَأَقْبَلُوا إِلَيْهِ {يَزِفُّونَ}", q:"ما معنى (يزفون)؟", o:["يمشون بتمهل كزفاف عروس","يسرعون في المشي","يتراقصون فرحاً"], c:1, k:"(يزفون) من الزَّفّ وهو الإسراع في المشي. أي أسرعوا حين علموا بما صنع إبراهيم بأصنامهم. قال ابن عطية: وزف بمعنى أسرع هو المعروف." },
+{ level:7, src:"الصافات: 103", v:"فَلَمَّا أَسْلَمَا وَ{تَلَّهُ} لِلْجَبِينِ", q:"ما معنى (تلّه للجبين)؟", o:["جذبه من ثيابه","طرحه وصرعه أرضاً على جنبه","وضع يده على جبينه"], c:1, k:"(تلّه) أي طرحه وصرعه أرضاً على جنبه تهيئةً للذبح. وليست جذبه من ثيابه كما هو شائع. والتل في العربية يعني الصرع والإلقاء." },
+{ level:7, src:"الحج: 52", v:"إِلَّا إِذَا {تَمَنَّىٰ} أَلْقَى الشَّيْطَانُ", q:"ما معنى (تمنّى) في هذه الآية؟", o:["تمنّى شيئاً بعيد الحصول","قرأ وتلا","اشتاق وحنّ"], c:1, k:"(تمنّى) هنا بمعنى قرأ وتلا. أي إذا قرأ النبي ألقى الشيطان وساوس في قراءته. وهذا استخدام قرآني خاص. وليست التمني المعروف وهو طلب ما يُستبعد." },
+{ level:7, src:"الرحمن: 24", v:"وَلَهُ الْجَوَارِ الْمُنشَآتُ فِي الْبَحْرِ كَالْ{أَعْلَامِ}", q:"ما معنى (الأعلام) هنا؟", o:["الرايات والأعلام","الجبال الشامخة","العلامات والمنارات"], c:1, k:"(الأعلام) هنا تعني الجبال الشامخة. أي السفن تسير في البحر كأنها جبال من ضخامتها. وليست الرايات والأعلام التي تُرفع." },
+{ level:7, src:"المؤمنون: 60", v:"وَالَّذِينَ يُؤْتُونَ مَا آتَوا وَقُلُوبُهُمْ {وَجِلَةٌ}", q:"ما معنى (وجِلة) في الآية؟", o:["من ذنوبهم ومعاصيهم","من أن تُرد عليهم طاعاتهم","من أعدائهم وخصومهم"], c:1, k:"وجلوا من فعل الطاعة ألا تُقبل منهم. قالت عائشة للنبي ﷺ: أهم الذين يشربون الخمر؟ قال: لا يا بنت الصديق، ولكنهم الذين يصومون ويصلون ويخافون ألا يُقبل منهم." },
+{ level:7, src:"النور: 35", v:"مَثَلُ نُورِهِ {مِشْكَاةٍ} فِيهَا مِصْبَاحٌ", q:"ما معنى (المشكاة)؟", o:["الفانوس الزجاجي","شباك صغير مسدود في الجدار","الفتيلة والزيت"], c:1, k:"المشكاة شباك صغير مسدود غير نافذ في الجدار، كان يُوضع فيه السراج. وهي أجمع للضوء من وضعه في فضاء مكشوف. قال الشيخ: سألت ثمانية أشخاص فلم يعرف أحدهم معناها." },
+{ level:7, src:"الزخرف: 57", v:"إِذَا قَوْمُكَ مِنْهُ {يَصِدُّونَ}", q:"ما معنى (يصِدّون) بكسر الصاد؟", o:["يُعرضون ويبتعدون","يضحكون ويضجّون","يصدّون ويمنعون غيرهم"], c:1, k:"بكسر الصاد تعني يضحكون ويضجّون. والآية: لما ضُرب ابن مريم مثلاً ضجّ قوم النبي ﷺ وضحكوا ظانين تناقضاً. وبضم الصاد تعني الإعراض وهي قراءة أخرى." },
+{ level:8, src:"الدخان: 18", v:"أَنْ أَدُّوا إِلَيَّ {عِبَادَ اللَّهِ}", q:"ما معنى (أدّوا إليّ عباد الله)؟", o:["اعبدوا الله معي","سلّموا إليّ بني إسرائيل كي يذهبوا معي","اعطوني يا عباد الله"], c:1, k:"(أدّوا إليّ عباد الله) تعني سلّم إليّ يا فرعون بني إسرائيل كي يذهبوا معي. وليس (اعطوني يا عباد الله) كما قد يُفهم." },
+{ level:8, src:"القلم: 28", v:"قَالَ {أَوْسَطُهُمْ} أَلَمْ أَقُل لَّكُمْ", q:"ما معنى (أوسطهم)؟", o:["أكبرهم سناً","أعدلهم وأفضلهم","الواقع في منتصفهم"], c:1, k:"(أوسطهم) يعني أعدلهم وأفضلهم وخيرهم. وليست الأوسط بمعنى من في منتصف العمر. ومنه: (وكذلك جعلناكم أمة وسطاً) أي خياراً عدولاً." },
+{ level:8, src:"المعارج: 41", v:"وَمَا نَحْنُ بِ{مَسْبُوقِينَ}", q:"ما معنى (بمسبوقين) هنا؟", o:["لن يسبقنا أحد في التبديل","لن يعجزنا أحد ولن يفوتنا","لسنا متأخرين"], c:1, k:"(بمسبوقين) أي لن يعجزنا أحد ولن يفوتنا أحد من الكفار. من السبق بمعنى الفوت والإعجاز. ومثله: (أم حسب الذين يعملون السيئات أن يسبقونا) أي يفوتونا." },
+{ level:8, src:"الجن: 8", v:"وَأَنَّا {لَمَسْنَا} السَّمَاءَ", q:"ما معنى (لمسنا السماء)؟", o:["مسسناها حقيقةً","طلبنا أخبارها وتحققنا","اقتربنا منها جداً"], c:1, k:"(لمسنا) هنا تعني طلبنا الخبر وتحققنا. وليس اللمس الحسي الحقيقي. الجن يقولون: حاولنا معرفة أخبار السماء فوجدناها ملأى بالحرس والشهب." },
+{ level:8, src:"القيامة: 7", v:"فَإِذَا {بَرِقَ} الْبَصَرُ", q:"ما معنى (بَرِق البصر)؟", o:["أضاء ولمع البصر","شخُص البصر وتحيّر ولم يطرف","اشتعل البصر غضباً"], c:1, k:"(بَرِق) تعني شخُص وتحيّر ولم يطرف من هول ما يرى. وليست من البريق واللمعان. وهذا وصف حال الإنسان يوم القيامة أو عند الاحتضار." },
+{ level:8, src:"الإنسان: 26", v:"وَسَبِّحْهُ {لَيْلًا طَوِيلًا}", q:"ما معنى (سبّحه ليلاً طويلاً)؟", o:["قل سبحان الله كثيراً","صلّ له من الليل","تأمّل عظمته بالليل"], c:1, k:"(سبّحه) هنا تعني صلّ له. وليست مجرد ذكر اللسان بقول سبحان الله. وهذا قول أكثر المفسرين. والتسبيح في القرآن يأتي بمعنى الصلاة في مواضع عديدة." },
+{ level:8, src:"الأنشقاق: 2", v:"وَأَذِنَتْ لِرَبِّهَا وَ{حُقَّتْ}", q:"ما معنى (وحُقَّت)؟", o:["وحق لها أن تفعل ذلك","وصارت حقاً وثابتة","وأصبح حقها مصوناً"], c:0, k:"(وحُقَّت) أي حق لها وكان ينبغي لها أن تسمع وتطيع. فهي لا تملك إلا الطاعة لأمر ربها. وهذا تأكيد على أن انقياد السماء لله أمر طبيعي حقيق." },
+{ level:8, src:"النازعات: 28", v:"رَفَعَ سَمْكَهَا فَسَوَّاهَا", q:"(فسوّاها) بعد رفع السماء — ما معنى (سوّاها) هنا؟", o:["جعلها مستوية وأزال الفجوات","أتقنها وأحكمها في حسن وكمال","سوّاها بالأرض في الشكل"], c:1, k:"(سوّاها) تعني أتقنها وأحكمها في حسن وكمال، لا عِوَج فيها ولا فطور. والآية تمدح خلق السماء بعد ذكر رفع ارتفاعها." },
+{ level:8, src:"البقرة: 193", v:"﴿ وَقَاتِلُوهُمْ حَتَّىٰ لَا تَكُونَ {فِتْنَةٌ} ﴾", q:"ما معنى (فتنة) في هذه الآية؟", o:["النزاع والخصومة","الكفر والشرك","الاضطراب والفوضى"], c:1, k:"الفتنة هنا تعني الكفر. أي قاتلوهم حتى لا يكون كفر يُمارَس علناً. ومنه قوله: والفتنة أشد من القتل. وليست الفتنة هنا مجرد نزاع أو اضطراب." },
+{ level:8, src:"النساء: 43", v:"﴿ وَلَا جُنُبًا إِلَّا {عَابِرِي سَبِيلٍ} ﴾", q:"ما معنى (عابري سبيل)؟", o:["المسافرين فقط","المارّين في المسجد","من لا يجدون ماءً"], c:1, k:"عابري سبيل هنا يعني المارّين في المسجد مروراً فقط لا مكثاً. وهو استثناء من النهي عن الصلاة حال الجنابة." },
+{ level:8, src:"يوسف: 19", v:"﴿ وَجَاءَتْ سَيَّارَةٌ فَأَرْسَلُوا {وَارِدَهُمْ} ﴾", q:"ما معنى (وارد) القافلة؟", o:["قائدها وزعيمها","من يذهب للبئر لجلب الماء","حارسها"], c:1, k:"الوارد هو الشخص الذي يُرسل للبئر ليستقي الماء للقافلة. فحين أدلى دلوه وجد يوسف فصاح: يا بشرى هذا غلام." },
+{ level:8, src:"مريم: 4", v:"﴿ وَاشْتَعَلَ الرَّأْسُ {شَيْبًا} ﴾", q:"ما معنى (اشتعل الرأس شيباً)؟", o:["أصيب الرأس بألم شديد","انتشر الشيب في الرأس كاشتعال النار","كبر الرأس من المرض"], c:1, k:"استعارة بديعة: شبّه الشيب المنتشر في الرأس باشتعال النار. فكأن الشعر الأبيض كالنار تسري. وهذا من أجمل التصوير في القرآن الكريم." },
+{ level:9, src:"طه: 39", v:"﴿ وَأَلْقَيْتُ عَلَيْكَ {مَحَبَّةً مِّنِّي} ﴾", q:"ما معنى (ألقيت عليك محبة مني)؟", o:["جعلتك تحب الله","جعلت الناس يحبّونك","أحببتك أنا شخصياً"], c:1, k:"الله قال لموسى: جعلتُ الناس يُلقون عليك محبتهم فلا يرونك إلا أحبّوك. وهذا ما حدث — حتى امرأة فرعون أحبّته حين وُجد في الصندوق." },
+{ level:9, src:"الأعراف: 143", v:"﴿ فَلَمَّا تَجَلَّىٰ رَبُّهُ لِلْجَبَلِ {دَكًّا} ﴾", q:"ما معنى (دكّاً)؟", o:["حجارة متناثرة","مستوياً مع الأرض","رماداً"], c:1, k:"دكّاً أي مستوياً محطَّماً مع الأرض. لمّا تجلّى الله للجبل لم يتحمّل فانهار وسُوّي بالأرض. وخرّ موسى صعقاً." },
+{ level:9, src:"الأنبياء: 30", v:"﴿ أَوَلَمْ يَرَ الَّذِينَ كَفَرُوا أَنَّ السَّمَاوَاتِ وَالْأَرْضَ {كَانَتَا رَتْقًا} ﴾", q:"ما معنى (كانتا رتقاً)؟", o:["كانتا ثابتتين","كانتا ملتصقتين مغلقتين","كانتا صلبتين"], c:1, k:"رتقاً أي ملتصقتين مغلقتين. ففتقهما الله وفصلهما. وهذا وصف لبداية الخلق قبل أن يُفصل الله السماء عن الأرض." },
+{ level:9, src:"الفيل: 3-4", v:"﴿ وَأَرْسَلَ عَلَيْهِمْ {أَبَابِيلَ} ﴾", q:"ما معنى (أبابيل)؟", o:["كبيرة الحجم","جماعات متفرقة","سريعة الطيران"], c:1, k:"أبابيل تعني الجماعات المتفرقة التي تأتي تباعاً. أي أرسل الله عليهم طيراً جاء أفواجاً وجماعات تتلاحق. وكان ذلك عام الفيل." },
+{ level:9, src:"الضحى: 6", v:"﴿ أَلَمْ يَجِدْكَ يَتِيمًا {فَآوَىٰ} ﴾", q:"ما معنى (فآوى) في الآية؟", o:["فأطعمك","فأعطاك مالاً","فكفّلك وأوجد لك مأوى"], c:2, k:"آوى تعني وفّر له المأوى والكفالة. الله امتنّ على النبي ﷺ بأنه وجده يتيماً فأوجد له من يكفله ويحضنه. وهي من أجمل الامتنانات." },
+{ level:9, src:"الأنعام: 151", v:"﴿ وَلَا تَقْتُلُوا أَوْلَادَكُم مِّنْ {إِمْلَاقٍ} ﴾", q:"ما معنى (إملاق)؟", o:["غضب وانفعال","فقر وخشية الفاقة","مرض وعجز"], c:1, k:"الإملاق هو الفقر الشديد. أي لا تقتلوا أولادكم خشية الفقر. والله يتكفّل برزقهم ورزقكم. وكان العرب يئدون بناتهم خشية الفقر." },
+{ level:9, src:"مريم: 71", v:"﴿ وَإِن مِّنكُمْ إِلَّا {وَارِدُهَا} ﴾", q:"ما معنى (واردها) في الآية؟", o:["داخلها لا محالة","مارّ عليها أو على الصراط فوقها","محاسَب عليها"], c:1, k:"واردها تعني المرور عليها أو الوقوف على حافتها. وقيل هو العبور على الصراط فوق جهنم. أما الدخول فليس لكل الناس — المؤمنون ينجون." },
+{ level:9, src:"الرعد: 17", v:"﴿ فَأَمَّا الزَّبَدُ فَيَذْهَبُ {جُفَاءً} ﴾", q:"ما معنى (جفاءً)؟", o:["ببطء وتدريج","متطايراً ومتفرقاً هباءً","إلى الأرض"], c:1, k:"جفاءً تعني متطايراً ومتفرقاً لا ينتفع به أحد. والزبد مثل للباطل الذي لا يثبت. أما الماء النافع فيبقى في الأرض. مثل بديع للحق والباطل." },
+{ level:9, src:"الحشر: 19", v:"﴿ وَلَا تَكُونُوا كَالَّذِينَ نَسُوا اللَّهَ فَأَنسَاهُمْ {أَنفُسَهُمْ} ﴾", q:"ما معنى (فأنساهم أنفسهم)؟", o:["جعلهم ينسون هويتهم","جعلهم لا يفكرون في مصلحة أنفسهم وآخرتهم","أماتهم"], c:1, k:"من نسي الله أنساه الله نفسه — أي أنساه ما يصلحه ويجلب له السعادة الحقيقية. فصار يعيش بلا هدف أو يسعى لما يضرّه." },
+{ level:9, src:"المدثر: 1-2", v:"﴿ يَا أَيُّهَا {الْمُدَّثِّرُ} قُمْ فَأَنذِرْ ﴾", q:"ما معنى (المدثّر)؟", o:["القائم بالليل","المتلفّف بثيابه","الخائف"], c:1, k:"المدثّر هو المتلفّف بثيابه والمتغطّي بها. وكان النبي ﷺ قد عاد من غار حراء خائفاً يرتجف فتغطّى. فنزل عليه: يا أيها المدثّر قم فأنذر." },
+{ level:9, src:"الفرقان: 53", v:"﴿ وَهُوَ الَّذِي مَرَجَ الْبَحْرَيْنِ هَٰذَا عَذْبٌ {فُرَاتٌ} وَهَٰذَا مِلْحٌ أُجَاجٌ ﴾", q:"ما معنى (فرات)؟", o:["ملح ومرّ","عذب بارد","شديد العذوبة"], c:2, k:"الفرات يعني شديد العذوبة. وأجاج يعني شديد الملوحة والمرارة. والله جعل بين البحرين حاجزاً فلا يختلطان رغم لقائهما. وهذا من عجائب خلق الله." },
+{ level:9, src:"الرحمن: 33", v:"﴿ يَا مَعْشَرَ الْجِنِّ وَالْإِنسِ إِنِ اسْتَطَعْتُمْ أَن {تَنفُذُوا} مِنْ أَقْطَارِ السَّمَاوَاتِ وَالْأَرْضِ فَانفُذُوا ﴾", q:"ما معنى (تنفذوا)؟", o:["تدمّروا","تخترقوا وتتجاوزوا","تسيطروا"], c:1, k:"تنفذوا تعني تخترقوا وتتجاوزوا حدود السماوات والأرض هرباً من حكم الله. والتحدي يكشف أنه مستحيل. (لا تنفذون إلا بسلطان) أي بقوة إلهية لا تملكونها." },
+{ level:10, src:"ق: 18", v:"﴿ مَا يَلْفِظُ مِن قَوْلٍ إِلَّا لَدَيْهِ رَقِيبٌ {عَتِيدٌ} ﴾", q:"ما معنى (عتيد)؟", o:["قديم وأزلي","حاضر ومستعد دائماً","قريب جداً"], c:1, k:"عتيد يعني حاضر ومستعد لا يغيب. الملَك الرقيب لا يتغافل ولا يغفل — كل كلمة تُكتب فوراً. وهذا باعث عظيم على مراقبة اللسان." },
+{ level:10, src:"البقرة: 49", v:"وَ{يَسْتَحْيُونَ} نِسَاءَكُمْ", q:"ما معنى (يستحيون) في الآية؟", o:["يستحون من النساء","يُبقونهن أحياءً ولا يقتلونهن","يطلبون عفوهن"], c:1, k:"(يستحيون) من الحياة لا من الحياء. أي يتركون النساء على قيد الحياة ولا يقتلونهن كفعلهم بالأبناء." },
+{ level:10, src:"الفرقان: 35", v:"وَجَعَلْنَا مَعَهُ أَخَاهُ هَارُونَ {وَزِيرًا}", q:"ما معنى (وزيراً) في الآية؟", o:["حارساً وحاجباً","معيناً ومساعداً","رسولاً مستقلاً"], c:1, k:"(الوزير) هو المعين الذي يحمل عن صاحبه بعض العبء. طلب موسى من ربه أن يجعل أخاه هارون نبياً ووزيراً يعينه في تبليغ الرسالة." },
+{ level:10, src:"الحاقة: 44-45", v:"لَأَخَذْنَا مِنْهُ بِالْ{يَمِينِ}", q:"ما معنى (اليمين) هنا؟", o:["يد اليمين الحرفية","القسم واليمين","القوة والعزة التي لا تُرد"], c:2, k:"(اليمين) هنا ليست اليد الحرفية ولا القسم. بل كناية عن القوة والقهر. أي لعاقبناه بقوة لا يقدر أحد على ردها." },
+{ level:10, src:"إبراهيم: 24", v:"أَلَمْ تَرَ كَيْفَ {ضَرَبَ} اللَّهُ مَثَلًا", q:"ما معنى (ضَرَبَ) هنا؟", o:["الضرب باليد","بيّن ووضّح وشبّه","كتب وسجّل"], c:1, k:"(ضرب المثل) في العربية تعني بيّن ووضّح وشبّه. وليس الضرب باليد. شبّه الله الكلمة الطيبة بشجرة طيبة دائمة الخير والنفع." },
+{ level:10, src:"البقرة: 10", v:"فِي قُلُوبِهِم {مَّرَضٌ} فَزَادَهُمُ اللَّهُ مَرَضًا", q:"ما معنى (مرض) في القلب هنا؟", o:["مرض جسدي حقيقي","شك ونفاق وضعف في الإيمان","حزن وكآبة"], c:1, k:"المرض هنا ليس مرض الأجساد. بل هو الشك والنفاق وسوء العقيدة. سُمي مرضاً لأنه يُضعف القلب كما يُضعف المرض البدن." },
+{ level:10, src:"العلق: 9", v:"أَرَأَيْتَ الَّذِي {يَنْهَىٰ} عَبْدًا إِذَا صَلَّىٰ", q:"ما معنى (يَنهى) هنا؟", o:["يُعلّم ويُرشد","يمنع ويصدّ","يراقب ويتابع"], c:1, k:"(يَنهى) تعني يمنع ويصدّ. والآية تتعجب ممن يمنع عبداً عن الصلاة. وقيل نزلت في أبي جهل حين نهى النبي ﷺ عن الصلاة عند الكعبة." },
+{ level:10, src:"النساء: 94", v:"تَبْتَغُونَ {عَرَضَ} الْحَيَاةِ الدُّنْيَا", q:"ما معنى (عَرَض الحياة الدنيا)؟", o:["أمراض الدنيا وشرورها","متاع الدنيا الزائل","عروض الدنيا وصفقاتها"], c:1, k:"(العَرَض) بفتح الراء هو المتاع الزائل الذي لا يدوم. وكل ما في الدنيا من مال وجاه عَرَض زائل." },
+{ level:10, src:"النحل: 90", v:"يَنْهَىٰ عَنِ الْفَحْشَاءِ وَالْمُنكَرِ وَالْبَغْيِ {يَعِظُكُمْ}", q:"ما معنى (يَعِظُكُم)؟", o:["يعاقبكم","يأمركم أمراً حتمياً","يُذكّركم ويُنبّهكم"], c:2, k:"(الوعظ) هو التذكير بما يُليّن القلب من الثواب والعقاب. وليس الأمر الحتمي. والله يعظ عباده بالترغيب والترهيب." },
+{ level:10, src:"البقرة: 204", v:"وَهُوَ {أَلَدُّ} الْخِصَامِ", q:"ما معنى (أَلَدّ الخصام)؟", o:["كثير الخصام","سريع الغضب","شديد الخصومة لا يقبل الحق"], c:2, k:"(الألد) هو شديد الخصومة الذي لا يقبل الحق ويجادل بالباطل. ومنه قوله ﷺ: أبغض الرجال إلى الله الألد الخصم." },
+{ level:10, src:"الزمر: 53", v:"لَا {تَقْنَطُوا} مِن رَّحْمَةِ اللَّهِ", q:"ما معنى (تقنطوا)؟", o:["تبتعدوا","تشككوا","تيأسوا وتقطعوا الأمل"], c:2, k:"(القنوط) هو اليأس التام من رحمة الله. وهو من كبائر الذنوب. والآية دعوة للأمل مهما عظمت الذنوب." },
+
+
+  { src:"الكهف: 39", v:"﴿ لَوْلَا إِذْ دَخَلْتَ جَنَّتَكَ قُلْتَ مَا شَاءَ اللَّهُ لَا قُوَّةَ إِلَّا بِاللَّهِ ﴾", q:"من قال هذا الكلام لصاحبه المتكبر بجنته؟", o:["صاحب الجنتين","أحد عماله","صاحبه المؤمن الفقير"], c:2, k:"قالها صاحب الجنتين المؤمن لصاحبه المتكبر الغني. علّمه أن يقول ما شاء الله حين يدخل جنته. وكان يجب أن يقولها — لكنه تكبّر فهلكت جنته." },
+
+  { src:"طه: 65", v:"﴿ يَا مُوسَىٰ إِمَّا أَن تُلْقِيَ وَإِمَّا أَن نَّكُونَ أَوَّلَ مَنْ أَلْقَىٰ ﴾", q:"من قال هذا الكلام لموسى في مشهد التحدي؟", o:["فرعون","سحرة فرعون","هامان"], c:1, k:"قالها سحرة فرعون لموسى في ساحة المبارزة. خيّروه: إما أن تُلقي أنت أولاً أو نُلقي نحن. فاختار موسى أن يُلقوا هم أولاً ليُريهم الحق." },
+
+  { src:"الأعراف: 148", v:"﴿ وَاتَّخَذَ قَوْمُ مُوسَىٰ مِن بَعْدِهِ مِنْ حُلِيِّهِمْ عِجْلًا جَسَدًا لَّهُ خُوَارٌ ﴾", q:"من صنع العجل لبني إسرائيل في غياب موسى؟", o:["هارون عليه السلام","كبراء بني إسرائيل","السامري"], c:2, k:"صنعه السامري من الحليّ. وألقى فيه قبضةً من تراب فرس جبريل فصار له خوار. وقال للناس: هذا إلهكم وإله موسى. فعبده الكثيرون." },
+
+  { src:"الأنبياء: 63", v:"﴿ بَلْ فَعَلَهُ كَبِيرُهُمْ هَٰذَا فَاسْأَلُوهُمْ إِن كَانُوا يَنطِقُونَ ﴾", q:"من قال (بل فعله كبيرهم هذا) وكان يعلم أنه لم يفعل؟", o:["موسى يُحيّر قومه","إبراهيم يُحرج قومه ليُثبت أن الأصنام لا تنطق","إسماعيل يدافع عن نفسه"], c:1, k:"قالها إبراهيم بعد أن كسّر الأصنام وأبقى الكبير. أراد إلزامهم بالحجة: اسألوا الأصنام إن كانت تنطق. فعادوا لعقولهم لحظة ثم عاندوا." },
+
+  { src:"يوسف: 100", v:"﴿ يَا أَبَتِ هَٰذَا تَأْوِيلُ رُؤْيَايَ مِن قَبْلُ قَدْ جَعَلَهَا رَبِّي حَقًّا ﴾", q:"من قال هذا الكلام لأبيه بعد سنوات من الفراق؟", o:["يعقوب لأبيه إسحاق","يوسف لأبيه يعقوب","بنيامين ليوسف"], c:1, k:"قالها يوسف لأبيه يعقوب حين التقيا في مصر وسجد له الجميع. تذكّر رؤياه وهو صغير فتحققت بعد سنوات من الابتلاء. وقال: قد جعلها ربي حقاً." },
+
+
+];
+
+const SPEAKER_QS = [
+
+  { src:"البقرة: 30", v:"أَتَجْعَلُ فِيهَا مَن يُفْسِدُ فِيهَا وَيَسْفِكُ الدِّمَاءَ وَنَحْنُ نُسَبِّحُ بِحَمْدِكَ", q:"من قال هذا الكلام لله تعالى عند خلق البشر؟", o:["إبليس رافضاً","الملائكة مستفسرين","الجن حين علموا"], c:1, k:"قالها الملائكة حين أخبرهم الله بخلق خليفة في الأرض. تساءلوا باستفسار لا اعتراض. فأجابهم الله: إني أعلم ما لا تعلمون." },
+
+  { src:"الأعراف: 23", v:"رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ", q:"من قال هذا الدعاء بعد أكل الشجرة المنهي عنها؟", o:["نوح وزوجته","آدم وحواء","يونس"], c:1, k:"دعاء آدم وحواء بعد المعصية. اعترفا بالظلم وطلبا المغفرة. نموذج في الاعتراف بالذنب والرجوع إلى الله." },
+
+  { src:"الأعراف: 21", v:"وَقَاسَمَهُمَا إِنِّي لَكُمَا لَمِنَ النَّاصِحِينَ", q:"من أقسم كذباً أنه ناصح؟", o:["ملَك أُرسل إليهما","إبليس","رجل من الجن"], c:1, k:"قالها إبليس لآدم وحواء حين أغراهما بالأكل من الشجرة. أقسم كذباً أنه ناصح. وكان أول كذب في التاريخ." },
+
+  { src:"المائدة: 27", v:"لَأَقْتُلَنَّكَ قَالَ إِنَّمَا يَتَقَبَّلُ اللَّهُ مِنَ الْمُتَّقِينَ", q:"من قال (لأقتلنك) لأخيه؟", o:["فرعون","قابيل","النمرود"], c:1, k:"قابيل قال لأخيه هابيل (لأقتلنك) حين لم يُقبل قربانه وقُبل قربان هابيل. وكانت أول جريمة قتل في البشرية." },
+
+  { src:"هود: 43", v:"سَآوِي إِلَىٰ جَبَلٍ يَعْصِمُنِي مِنَ الْمَاءِ", q:"من قال إنه سيلجأ إلى الجبل من الطوفان؟", o:["رجل كافر من القوم","ابن نوح","زوجة نوح"], c:1, k:"قالها ابن نوح حين رفض ركوب السفينة. ظن أن الجبل سيحميه. فأجابه نوح: لا عاصم اليوم من أمر الله. وكان من المغرقين." },
+
+  { src:"هود: 43", v:"لَا عَاصِمَ الْيَوْمَ مِنْ أَمْرِ اللَّهِ إِلَّا مَن رَّحِمَ", q:"من قال (لا عاصم اليوم من أمر الله)؟", o:["الله تعالى","نوح","جبريل"], c:1, k:"قالها نوح لابنه حين طلب اللجوء إلى الجبل. أخبره أن لا شيء يحمي من أمر الله في هذا اليوم." },
+
+  { src:"البقرة: 260", v:"رَبِّ أَرِنِي كَيْفَ تُحْيِي الْمَوْتَىٰ... بَلَىٰ وَلَٰكِن لِّيَطْمَئِنَّ قَلْبِي", q:"من قال (ليطمئن قلبي)؟", o:["موسى","إبراهيم","زكريا"], c:1, k:"قالها إبراهيم الخليل حين طلب رؤية إحياء الموتى. لم يكن شاكاً بل أراد اليقين المشاهَد. فأجابه الله بمعجزة الطيور الأربعة." },
+
+  { src:"البقرة: 126", v:"رَبِّ اجْعَلْ هَٰذَا بَلَدًا آمِنًا وَارْزُقْ أَهْلَهُ مِنَ الثَّمَرَاتِ", q:"من دعا بهذا الدعاء لمكة المكرمة؟", o:["إسماعيل","النبي ﷺ","إبراهيم"], c:2, k:"دعاء إبراهيم الخليل لمكة حين أسكن فيها هاجر وإسماعيل. استجاب الله فجعلها بلداً آمناً يأتيه الثمر من كل مكان." },
+
+  { src:"هود: 70", v:"سَلَامٌ قَوْمٌ مُّنكَرُونَ", q:"من قال (قوم منكرون) للملائكة؟", o:["لوط","إبراهيم","زكريا"], c:1, k:"قالها إبراهيم للملائكة حين جاؤوه في صورة رجال ولم يأكلوا الطعام. أحسّ بالريبة. فأخبروه أنهم رسل الله وبشّروه بإسحاق." },
+
+  { src:"الصافات: 102", v:"يَا أَبَتِ افْعَلْ مَا تُؤْمَرُ سَتَجِدُنِي إِن شَاءَ اللَّهُ مِنَ الصَّابِرِينَ", q:"من قال لأبيه (افعل ما تؤمر)؟", o:["يحيى","إسحاق","إسماعيل"], c:2, k:"قالها إسماعيل لأبيه إبراهيم حين أخبره بالرؤيا. فاستجاب بهذه الكلمة العظيمة. وكانت أعظم لحظة تسليم في التاريخ." },
+
+  { src:"هود: 78", v:"هَٰؤُلَاءِ بَنَاتِي هُنَّ أَطْهَرُ لَكُمْ", q:"من عرض بناته دفاعاً عن ضيوفه؟", o:["شعيب","لوط","إبراهيم"], c:1, k:"قالها لوط لقومه حين جاؤوا يطلبون ضيوفه الملائكة. عرض بناته زواجاً شرعياً دفاعاً عنهم." },
+
+  { src:"البقرة: 249", v:"إِنَّ اللَّهَ مُبْتَلِيكُم بِنَهَرٍ فَمَن شَرِبَ مِنْهُ فَلَيْسَ مِنِّي", q:"من قال (إن الله مبتليكم بنهر)؟", o:["موسى","طالوت","داود"], c:1, k:"قالها طالوت لجيشه حين اختبرهم الله بالنهر. من شرب منه فليس معه. فشرب أكثرهم إلا القليل الذين انتصروا." },
+
+  { src:"ص: 24", v:"لَقَدْ ظَلَمَكَ بِسُؤَالِ نَعْجَتِكَ إِلَىٰ نِعَاجِهِ", q:"من قال (لقد ظلمك بسؤال نعجتك)؟", o:["سليمان","داود","أحد الملائكة"], c:1, k:"قالها داود حين جاءه الخصمان في المحراب. ثم أدرك أنها كانت فتنة واختباراً له. فاستغفر ربه وخرّ راكعاً وأناب." },
+
+  { src:"البقرة: 61", v:"لَن نَّصْبِرَ عَلَىٰ طَعَامٍ وَاحِدٍ فَادْعُ لَنَا رَبَّكَ", q:"من قال (لن نصبر على طعام واحد)؟", o:["أصحاب الكهف","بنو إسرائيل","أصحاب النبي ﷺ"], c:1, k:"قالها بنو إسرائيل لموسى حين سئموا المن والسلوى. فعاتبهم موسى: أتستبدلون الذي هو أدنى بالذي هو خير." },
+
+  { src:"يوسف: 9", v:"اقْتُلُوا أَخَاكُمْ أَوِ اطْرَحُوهُ أَرْضًا وَيَخْلُ لَكُمْ وَجْهُ أَبِيكُمْ", q:"من اقترح التخلص من أخيه؟", o:["أعداء يوسف في مصر","إخوة يوسف","أبناء يعقوب من زوجة أخرى"], c:1, k:"قالها إخوة يوسف حين تآمروا عليه. وكانت من أشد اللحظات ظلماً لأنها جاءت من الأسرة." },
+
+  { src:"يوسف: 29", v:"أَعْرِضْ عَنْ هَٰذَا وَاسْتَغْفِرِي لِذَنبِكِ إِنَّكِ كُنتِ مِنَ الْخَاطِئِينَ", q:"من قال (أعرض عن هذا) في قصة يوسف؟", o:["الملك فرعون","العزيز زوج المرأة","أحد الشهود"], c:1, k:"قالها العزيز زوج المرأة حين اكتشف الحقيقة وأن زوجته هي من راودت يوسف. أمر يوسف بالصمت وأمر زوجته بالاستغفار. وأراد إخفاء الأمر." },
+
+  { src:"يوسف: 32", v:"مَا جَزَاءُ مَنْ أَرَادَ بِأَهْلِكَ سُوءًا إِلَّا أَن يُسْجَنَ أَوْ عَذَابٌ أَلِيمٌ", q:"من اقترحت السجن عقوبةً للبريء؟", o:["الملك فرعون","امرأة العزيز","قضاة المدينة"], c:1, k:"قالتها امرأة العزيز حين أمسك بها وهي تطارد يوسف. قلبت الأمر وادّعت أنه هو من أراد السوء." },
+
+  { src:"يوسف: 51", v:"الْآنَ حَصْحَصَ الْحَقُّ أَنَا رَاوَدتُّهُ عَن نَّفْسِهِ وَإِنَّهُ لَمِنَ الصَّادِقِينَ", q:"من اعترفت أمام الملك ببراءة يوسف؟", o:["إحدى نساء المدينة","امرأة العزيز","وصيفة من القصر"], c:1, k:"اعترفت امرأة العزيز أمام الملك. قالت بصراحة: وَلَقَدْ راودتُّه فاستعصم. وأن يوسف لمن الصادقين." },
+
+  { src:"القصص: 9", v:"لَا تَقْتُلُوهُ عَسَىٰ أَن يَنفَعَنَا أَوْ نَتَّخِذَهُ وَلَدًا", q:"من قالت (لا تقتلوه عسى أن ينفعنا)؟", o:["أم موسى","امرأة فرعون","أخت موسى"], c:1, k:"قالتها امرأة فرعون حين وُجد موسى في الصندوق. أعجبها الطفل وطلبت إبقاءه. وكان الله يدبّر أن يُرجَع موسى إلى أمه." },
+
+  { src:"القصص: 12", v:"هَلْ أَدُلُّكُمْ عَلَىٰ أَهْلِ بَيْتٍ يَكْفُلُونَهُ لَكُمْ وَهُمْ لَهُ نَاصِحُونَ", q:"من قالت (هل أدلكم على أهل بيت يكفلونه)؟", o:["القابلة التي ولّدت موسى","امرأة من قوم فرعون","أخت موسى"], c:2, k:"قالتها أخت موسى حين رفض موسى كل المراضع. فاقترحت بيت أمه دون أن تكشف هويتها. فأُعيد موسى إلى أمه وقرّت عينها." },
+
+  { src:"طه: 25-26", v:"رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي", q:"من دعا بشرح الصدر قبل مواجهة فرعون؟", o:["إبراهيم","يوسف","موسى"], c:2, k:"دعاء موسى حين أرسله الله لفرعون. طلب شرح الصدر وتيسير الأمر وحل العقدة من لسانه. دعاء يُقال عند كل مهمة صعبة." },
+
+  { src:"طه: 18", v:"هِيَ عَصَايَ أَتَوَكَّأُ عَلَيْهَا وَأَهُشُّ بِهَا عَلَىٰ غَنَمِي", q:"من قال هذا الكلام عن عصاه؟", o:["إبراهيم","شعيب","موسى"], c:2, k:"قالها موسى حين سأله الله: وما تلك بيمينك يا موسى؟ فأجاب بتفصيل يُظهر تعلقه بعصاه. وكانت ستصبح آية عظيمة." },
+
+  { src:"طه: 96", v:"كَذَٰلِكَ سَوَّلَتْ لِي نَفْسِي", q:"من قال (كذلك سوّلت لي نفسي) حين صنع العجل؟", o:["فرعون","السامري","إبليس"], c:1, k:"قالها السامري حين سأله موسى عن سبب صنع العجل. اعترف أن نفسه زيّنت له ذلك. وكان جزاؤه: لا مساس — منبوذاً لا يُقرب." },
+
+  { src:"النازعات: 24", v:"أَنَا رَبُّكُمُ الْأَعْلَىٰ", q:"من قال (أنا ربكم الأعلى)؟", o:["النمرود","فرعون","قارون"], c:1, k:"قالها فرعون في أعتى صور التكبر. ادّعى الربوبية لنفسه. فأخذه الله نكال الآخرة والأولى." },
+
+  { src:"غافر: 26", v:"ذَرُونِي أَقْتُلْ مُوسَىٰ وَلْيَدْعُ رَبَّهُ", q:"من قال (ذروني أقتل موسى)؟", o:["النمرود","هامان","فرعون"], c:2, k:"قالها فرعون لملئه. وقوله (ذروني) يدل أن بعضهم كان يثنيه. ومنهم مؤمن آل فرعون الذي كان يدافع عن موسى سراً." },
+
+  { src:"البقرة: 258", v:"أَنَا أُحْيِي وَأُمِيتُ", q:"من ادّعى أنه يحيي ويميت؟", o:["فرعون","النمرود","قارون"], c:1, k:"قالها النمرود لإبراهيم محاجّاً. فحجّه إبراهيم: ربي يأتي بالشمس من المشرق فأتِ بها من المغرب. فبُهت." },
+
+  { src:"يوسف: 4", v:"يَا أَبَتِ إِنِّي رَأَيْتُ أَحَدَ عَشَرَ كَوْكَبًا وَالشَّمْسَ وَالْقَمَرَ رَأَيْتُهُمْ لِي سَاجِدِينَ", q:"من رأى هذه الرؤيا وهو صغير؟", o:["إبراهيم","إسماعيل","يوسف"], c:2, k:"رآها يوسف وهو صغير. فحذّره أبوه من إخوته. وتحققت الرؤيا بعد سنوات من الابتلاء حين سجد له إخوته وأبواه في مصر." },
+
+  { src:"القصص: 15", v:"هَٰذَا مِنْ عَمَلِ الشَّيْطَانِ إِنَّهُ عَدُوٌّ مُّضِلٌّ مُّبِينٌ", q:"من قال هذا الكلام بعد أن قتل رجلاً خطأً؟", o:["داود","موسى","إبراهيم"], c:1, k:"قالها موسى حين وكز القبطي فقضى عليه خطأً. ندم وتبرّأ من فعله. وقال: رب إني ظلمت نفسي فاغفر لي. فغفر الله له." },
+
+  { src:"القصص: 24", v:"رَبِّ إِنِّي لِمَا أَنزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ", q:"من قال هذا الدعاء بعد فراره وهو جائع وحيد؟", o:["يونس","يوسف في السجن","موسى في مدين"], c:2, k:"قالها موسى حين جلس عند بئر مدين بعد فراره من مصر. كان جائعاً وحيداً. فجاءته إحدى بنتي شعيب." },
+
+  { src:"مريم: 4", v:"رَبِّ إِنِّي وَهَنَ الْعَظْمُ مِنِّي وَاشْتَعَلَ الرَّأْسُ شَيْبًا", q:"من ناجى ربه بهذه الكلمات طالباً الذرية؟", o:["إبراهيم","زكريا","أيوب"], c:1, k:"دعاء زكريا وهو يناجي ربه سراً بعد أن كبر وضعف. طلب الذرية الصالحة. فاستجاب الله وبشّره بيحيى." },
+
+  { src:"مريم: 8", v:"أَنَّىٰ يَكُونُ لِي غُلَامٌ وَكَانَتِ امْرَأَتِي عَاقِرًا وَقَدْ بَلَغْتُ مِنَ الْكِبَرِ عِتِيًّا", q:"من تعجب من البشرى بالولد وزوجته عاقر؟", o:["إبراهيم","زكريا","لوط"], c:1, k:"تعجّب زكريا من البشرى استفساراً عن الكيفية. فقيل له: كذلك قال ربك هو عليّ هيّن." },
+
+  { src:"مريم: 20", v:"أَنَّىٰ يَكُونُ لِي غُلَامٌ وَلَمْ يَمْسَسْنِي بَشَرٌ وَلَمْ أَكُ بَغِيًّا", q:"من قالت (أنّى يكون لي غلام ولم يمسسني بشر)؟", o:["امرأة إبراهيم","مريم","امرأة زكريا"], c:1, k:"قالتها مريم حين بشّرها جبريل بغلام. تعجّبت لأنها عذراء. فقال الملَك: كذلك قال ربك هو عليّ هيّن." },
+
+  { src:"مريم: 36", v:"وَإِنَّ اللَّهَ رَبِّي وَرَبُّكُمْ فَاعْبُدُوهُ هَٰذَا صِرَاطٌ مُّسْتَقِيمٌ", q:"من قال هذا الكلام وهو رضيع في المهد؟", o:["يحيى بن زكريا","إدريس النبي","عيسى"], c:2, k:"قالها عيسى وهو رضيع دفاعاً عن أمه مريم حين اتهمها قومها. وكانت أولى معجزاته." },
+
+  { src:"آل عمران: 35", v:"رَبِّ إِنِّي نَذَرْتُ لَكَ مَا فِي بَطْنِي مُحَرَّرًا", q:"من نذرت ما في بطنها لله قبل ولادته؟", o:["أم موسى","امرأة عمران أم مريم","هاجر"], c:1, k:"قالتها امرأة عمران حين حملت. نذرت مولودها لخدمة بيت المقدس. فكانت مريم. فكانت أفضل من كل ذكر." },
+
+  { src:"الأنبياء: 83", v:"رَبِّ أَنِّي مَسَّنِيَ الضُّرُّ وَأَنتَ أَرْحَمُ الرَّاحِمِينَ", q:"من قال هذا الدعاء بعد سنوات من البلاء؟", o:["يونس","أيوب","يعقوب"], c:1, k:"دعاء أيوب بعد سنوات من المرض. لم يشكُ بل أبلغ الله بحاله ووكّل أمره له. فاستجاب الله وعافاه." },
+
+  { src:"الأنبياء: 87", v:"لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ", q:"من قال هذا الدعاء في ظلمات ثلاث؟", o:["إبراهيم في النار","يونس في بطن الحوت","آدم بعد المعصية"], c:1, k:"دعاء يونس في بطن الحوت. يُسمى دعاء الكرب. قال النبي ﷺ: ما من مسلم يدعو به في كرب إلا استجاب الله له." },
+
+  { src:"النمل: 22-23", v:"أَحَطتُ بِمَا لَمْ تُحِطْ بِهِ وَجِئْتُكَ مِن سَبَإٍ بِنَبَإٍ يَقِينٍ", q:"من قال لسليمان (أحطت بما لم تحط به)؟", o:["ملكة سبأ","الهدهد","عفريت من الجن"], c:1, k:"قالها الهدهد لسليمان حين عاد من غيبته. أخبره بملكة سبأ وقومها الذين يسجدون للشمس." },
+
+  { src:"النمل: 40", v:"أَنَا آتِيكَ بِهِ قَبْلَ أَن يَرْتَدَّ إِلَيْكَ طَرْفُكَ", q:"من قال (أنا آتيك به قبل أن يرتد إليك طرفك)؟", o:["عفريت من الجن","الذي عنده علم من الكتاب","الهدهد"], c:1, k:"قالها الذي عنده علم من الكتاب حين تنافس مع العفريت في إحضار عرش ملكة سبأ. فأحضره في لحظة." },
+
+  { src:"النمل: 44", v:"رَبِّ إِنِّي ظَلَمْتُ نَفْسِي وَأَسْلَمْتُ مَعَ سُلَيْمَانَ لِلَّهِ رَبِّ الْعَالَمِينَ", q:"من أسلمت مع سليمان وقالت هذا الدعاء؟", o:["زوجة سليمان","ملكة سبأ","امرأة من الجن"], c:1, k:"قالتها ملكة سبأ حين رأت عظمة ملك سليمان ومعجزاته. دخل الإيمان قلبها وأسلمت." },
+
+  { src:"الجن: 2", v:"يَهْدِي إِلَى الرُّشْدِ فَآمَنَّا بِهِ وَلَن نُّشْرِكَ بِرَبِّنَا أَحَدًا", q:"من قال (يهدي إلى الرشد فآمنا به)؟", o:["أصحاب النبي ﷺ","الجن حين سمعوا القرآن","بنو إسرائيل"], c:1, k:"قالها الجن حين استمعوا للقرآن. أسرعوا إلى قومهم مبشّرين. وكانوا نموذجاً في الاستجابة الفورية للحق." },
+
+  { src:"النمل: 18", v:"يَا أَيُّهَا النَّمْلُ ادْخُلُوا مَسَاكِنَكُمْ لَا يَحْطِمَنَّكُمْ سُلَيْمَانُ وَجُنُودُهُ", q:"من قال (ادخلوا مساكنكم لا يحطمنكم سليمان)؟", o:["أحد جنود سليمان","النملة","الهدهد"], c:1, k:"قالتها النملة لقومها حين رأت جيش سليمان مقبلاً. وابتسم سليمان حين سمعها." },
+
+  { src:"الكهف: 82", v:"وَمَا فَعَلْتُهُ عَنْ أَمْرِي ذَٰلِكَ تَأْوِيلُ مَا لَمْ تَسْطِع عَّلَيْهِ صَبْرًا", q:"من قال (وما فعلته عن أمري)؟", o:["جبريل","الخضر","إبراهيم"], c:1, k:"قالها الخضر لموسى حين شرح له أسباب أفعاله. أوضح أنه لم يتصرف من تلقاء نفسه بل بأمر الله." },
+
+  { src:"الكهف: 65", v:"فَوَجَدَا عَبْدًا مِّنْ عِبَادِنَا آتَيْنَاهُ رَحْمَةً مِّنْ عِندِنَا", q:"من هو العبد الذي آتاه الله رحمة وعلماً؟", o:["إيليا النبي","الخضر","ملَك في صورة بشر"], c:1, k:"هو الخضر كما يرى جمهور المفسرين. آتاه الله علماً خاصاً — علم الأسرار والحِكَم الخفية وراء الأحداث." },
+
+  { src:"آل عمران: 52", v:"مَنْ أَنصَارِي إِلَى اللَّهِ", q:"من قال (من أنصاري إلى الله)؟", o:["النبي ﷺ","موسى","عيسى"], c:2, k:"قالها عيسى حين أحسّ بكفر قومه. فأجابه الحواريون: نحن أنصار الله. وكلمة (إلى الله) تعني في سبيل الله." },
+
+  { src:"الأعراف: 121-126", v:"رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَتَوَفَّنَا مُسْلِمِينَ", q:"من دعا بهذا الدعاء بعد إيمانهم فوراً بموسى؟", o:["بنو إسرائيل","سحرة فرعون","الحواريون مع عيسى"], c:1, k:"دعاء سحرة فرعون بعد أن رأوا آية موسى وآمنوا. هددهم فرعون بالقتل. فأجابوا: لا ضير، إنا إلى ربنا منقلبون." },
+
+  { src:"التحريم: 3", v:"نَبَّأَنِيَ الْعَلِيمُ الْخَبِيرُ", q:"من قال (نبّأني العليم الخبير) لإحدى زوجاته؟", o:["سليمان","سيدنا يوسف","النبي ﷺ"], c:2, k:"قالها النبي ﷺ لإحدى زوجاته حين أخبرها بأنه علم بالسر الذي أفشته. أطلعه الله على ما أُخفي." },
+
+  { src:"الأعراف: 43", v:"الْحَمْدُ لِلَّهِ الَّذِي هَدَانَا لِهَٰذَا وَمَا كُنَّا لِنَهْتَدِيَ لَوْلَا أَنْ هَدَانَا اللَّهُ", q:"من يقول هذا الكلام حين يدخلون الجنة؟", o:["الملائكة","أهل الجنة","الأنبياء"], c:1, k:"يقولها أهل الجنة حين يدخلونها. يحمدون الله على الهداية ويعترفون أنهم ما كانوا يهتدون لولا فضل الله. نسأل الله أن يجعلنا منهم." },
+
+  { src:"الأعراف: 50", v:"أَفِيضُوا عَلَيْنَا مِنَ الْمَاءِ أَوْ مِمَّا رَزَقَكُمُ اللَّهُ", q:"من يطلب الماء من أهل الجنة؟", o:["المنافقون في البرزخ","أهل النار","الذين لم تبلغهم الدعوة"], c:1, k:"يقولها أهل النار لأهل الجنة. فيُجيبهم أهل الجنة: إن الله حرّمهما على الكافرين. نسأل الله العافية." },
+
+  { src:"يوسف: 100", v:"يَا أَبَتِ هَٰذَا تَأْوِيلُ رُؤْيَايَ مِن قَبْلُ قَدْ جَعَلَهَا رَبِّي حَقًّا", q:"من قال هذا الكلام لأبيه بعد سنوات من الفراق؟", o:["يعقوب لأبيه","يوسف لأبيه يعقوب","بنيامين ليوسف"], c:1, k:"قالها يوسف لأبيه يعقوب حين التقيا في مصر. تذكّر رؤياه وهو صغير فتحققت بعد سنوات من الابتلاء." },
+
+  { src:"الكهف: 38", v:"لَّٰكِنَّا هُوَ اللَّهُ رَبِّي وَلَا أُشْرِكُ بِرَبِّي أَحَدًا", q:"من قال (لا أشرك بربي أحداً) مقابل تكبر صاحبه؟", o:["صاحبه المؤمن الفقير","إبراهيم","أحد أصحاب الكهف"], c:0, k:"قالها صاحب الجنتين المؤمن رداً على صاحبه المتكبر. وقف الفقير المؤمن في وجه الغني الكافر ولم يتزعزع." },
+
+  { src:"الكهف: 39", v:"لَوْلَا إِذْ دَخَلْتَ جَنَّتَكَ قُلْتَ مَا شَاءَ اللَّهُ لَا قُوَّةَ إِلَّا بِاللَّهِ", q:"من قال هذا الكلام لصاحبه المتكبر بجنته؟", o:["صاحب الجنتين","أحد عماله","صاحبه المؤمن الفقير"], c:2, k:"قالها صاحبه المؤمن الفقير. علّمه أن يقول ما شاء الله حين يدخل جنته. وكان يجب أن يقولها لكنه تكبّر فهلكت جنته." },
+
+  { src:"القصص: 76", v:"يَا لَيْتَ لَنَا مِثْلَ مَا أُوتِيَ قَارُونُ إِنَّهُ لَذُو حَظٍّ عَظِيمٍ", q:"من قال (يا ليت لنا مثل ما أوتي قارون)؟", o:["فرعون وهامان","الذين تمنوا ثروة قارون","تجار مصر"], c:1, k:"قالها الذين يريدون الحياة الدنيا من قوم قارون حين رأوا زينته. تمنّوا ثروته. لكن لما خسف الله به تبدّل رأيهم." },
+
+  { src:"القصص: 82", v:"وَيْكَأَنَّ اللَّهَ يَبْسُطُ الرِّزْقَ لِمَن يَشَاءُ مِنْ عِبَادِهِ وَيَقْدِرُ", q:"من قال هذا الكلام بعد هلاك قارون؟", o:["الذين تمنوا ثروة قارون","الذين نصحوا قارون","العلماء الصالحين من قومه"], c:0, k:"قالها الذين كانوا يتمنون ثروة قارون بالأمس. لمّا رأوا خسفه تبدّل رأيهم وأدركوا أن الرزق بيد الله." },
+
+  { src:"التوبة: 40", v:"لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا", q:"من قال لصاحبه (لا تحزن إن الله معنا) في الغار؟", o:["جبريل لموسى","النبي ﷺ لأبي بكر","أبو بكر للنبي ﷺ"], c:1, k:"قالها النبي ﷺ لأبي بكر حين كانا في غار ثور. وأبو بكر كان يخشى عليه ﷺ لا على نفسه. فطمأنه النبي بهذه الكلمة الخالدة." },
+
+  { src:"الكهف: 10", v:"رَبَّنَا آتِنَا مِن لَّدُنكَ رَحْمَةً وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًا", q:"من دعا بهذا الدعاء حين لجأ إلى الكهف؟", o:["إبراهيم","أصحاب الكهف","موسى والخضر"], c:1, k:"دعاء أصحاب الكهف حين آووا إليه فراراً بدينهم. فأجابهم الله بالنوم الطويل الذي حفظهم وجعل قصتهم آية للعالمين." },
+
+  { src:"يس: 20", v:"يَا قَوْمِ اتَّبِعُوا الْمُرْسَلِينَ اتَّبِعُوا مَن لَّا يَسْأَلُكُمْ أَجْرًا", q:"من جاء من أقصى المدينة يسعى ناصحاً لقومه؟", o:["رجل من أهل الكتاب","رجل مؤمن من أهل المدينة","حبيب النجار"], c:2, k:"قالها حبيب النجار — رجل مؤمن جاء يدافع عن الرسل ويدعو قومه. فقتلوه. فقيل له: ادخل الجنة. قال: يا ليت قومي يعلمون." },
+
+  { src:"الأنبياء: 68", v:"حَرِّقُوهُ وَانصُرُوا آلِهَتَكُمْ إِن كُنتُمْ فَاعِلِينَ", q:"من أصدر أمر حرق إبراهيم؟", o:["الكهنة","قوم إبراهيم والنمرود","جنود الملك"], c:1, k:"أصدر النمرود وقوم إبراهيم أمر الحرق انتقاماً لآلهتهم. فبنوا نار عظيمة وألقوه فيها. لكن الله أمر النار أن تكون برداً وسلاماً." },
+
+  { src:"الأنبياء: 63", v:"بَلْ فَعَلَهُ كَبِيرُهُمْ هَٰذَا فَاسْأَلُوهُمْ إِن كَانُوا يَنطِقُونَ", q:"من قال (بل فعله كبيرهم) ليُثبت أن الأصنام لا تنطق؟", o:["موسى","إبراهيم","إسماعيل"], c:1, k:"قالها إبراهيم بعد أن كسّر الأصنام. أراد إلزامهم بالحجة: اسألوا الأصنام. فعادوا لعقولهم لحظة ثم عاندوا." },
+
+  { src:"الأنبياء: 89", v:"رَبِّ لَا تَذَرْنِي فَرْدًا وَأَنتَ خَيْرُ الْوَارِثِينَ", q:"من دعا ربه ألا يتركه فرداً بلا ذرية؟", o:["أيوب","زكريا","إبراهيم"], c:1, k:"دعاء زكريا. طلب الذرية بقوله (لا تذرني فرداً). فاستجاب الله وبشّره بيحيى." },
+
+  { src:"الكهف: 67", v:"إِنَّكَ لَن تَسْتَطِيعَ مَعِيَ صَبْرًا", q:"من قال لموسى (إنك لن تستطيع معي صبراً)؟", o:["جبريل","الخضر","ملَك من السماء"], c:1, k:"قالها الخضر لموسى حين طلب أن يصحبه. وقد صدق — لم يصبر موسى على أفعاله. بعض العلم يحتاج مقاماً معيناً لفهمه." },
+
+  { src:"الأنعام: 76", v:"هَٰذَا رَبِّي فَلَمَّا أَفَلَ قَالَ لَا أُحِبُّ الْآفِلِينَ", q:"من قال (هذا ربي) ثم رفض ما أفل وزال؟", o:["إدريس يتأمل النجوم","إبراهيم يبحث عن ربه","نوح يدعو قومه"], c:1, k:"قالها إبراهيم وهو يبحث عن الحق بعقله. رأى الكوكب فرفضه لأنه أفل. ثم القمر ثم الشمس. وكان في ذلك حجة على قومه." },
+
+  { src:"النمل: 30-31", v:"إِنَّهُ مِن سُلَيْمَانَ وَإِنَّهُ بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ أَلَّا تَعْلُوا عَلَيَّ وَأْتُونِي مُسْلِمِينَ", q:"من كتب هذه الرسالة؟", o:["ملكة سبأ لسليمان","سليمان لملكة سبأ","الهدهد ينقل الرسالة"], c:1, k:"كتبها سليمان لملكة سبأ. بدأها ببسم الله وطلب منها الخضوع. فكان موقفها حكيماً." },
+
+  { src:"الشعراء: 18", v:"أَلَمْ نُرَبِّكَ فِينَا وَلِيدًا وَلَبِثْتَ فِينَا مِنْ عُمُرِكَ سِنِينَ", q:"من قال هذا الكلام لموسى ذاكراً نعمة التربية؟", o:["أم موسى","فرعون","امرأة فرعون"], c:1, k:"قالها فرعون لموسى حين جاءه بالرسالة. ذكّره بتربيته في قصره ظاناً أن ذلك يُسكته. فرد موسى: وتلك نعمة تمنّها عليّ وقد عبّدت بني إسرائيل." },
+
+  { src:"القصص: 38", v:"فَأَوْقِدْ لِي يَا هَامَانُ عَلَى الطِّينِ فَاجْعَل لِّي صَرْحًا", q:"من أمر ببناء الصرح ليصعد إلى إله موسى؟", o:["النمرود","قارون","فرعون"], c:2, k:"أمر فرعون هامان ببناء الصرح. كان يستهزئ بدعوى موسى. لكن الله أهلكه وأغرقه ولم ينفعه صرحه." },
+
+  { src:"إبراهيم: 40", v:"رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي", q:"من دعا لنفسه وذريته بإقامة الصلاة؟", o:["يعقوب","إبراهيم","يوسف"], c:1, k:"دعاء إبراهيم الخليل. رغم مقامه العظيم طلب من الله أن يُثبّته وذريته على الصلاة. الثبات على العبادة نعمة تُطلب." },
+
+  { src:"الكهف: 60", v:"لَا أَبْرَحُ حَتَّىٰ أَبْلُغَ مَجْمَعَ الْبَحْرَيْنِ أَوْ أَمْضِيَ حُقُبًا", q:"من قال (لا أبرح حتى أبلغ مجمع البحرين)؟", o:["ذو القرنين","موسى","سليمان"], c:1, k:"قالها موسى حين أُمر بطلب العلم من الخضر. أصرّ على الوصول ولو استغرق وقتاً طويلاً. درس في المثابرة في طلب العلم." },
+
+];
+
+
+
+
+// ═══════════════════════════════════════
+//  LEVELS CONFIG
+// ═══════════════════════════════════════
+const LEVELS_CONFIG = [
+  { id:1 },{ id:2 },{ id:3 },{ id:4 },{ id:5 },
+  { id:6 },{ id:7 },{ id:8 },{ id:9 },{ id:10 }
+];
+
+// ═══════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════
+function shuffle(arr) {
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+
+// ═══════════════════════════════════════
+//  GAME STATE
+// ═══════════════════════════════════════
+var state = {
+  currentCorrect: 0,
+  mode: null, level: null,
+  questions: [], currentIdx: 0,
+  score: 0, answers: [],
+  timer: null, timeLeft: 20,
+  currentStreak: 0,
+  totalPlayed:  parseInt(localStorage.getItem('aty_played')  || '0'),
+  totalCorrect: parseInt(localStorage.getItem('aty_correct') || '0'),
+  bestStreak:   parseInt(localStorage.getItem('aty_streak')  || '0'),
+};
+
+// ═══════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════
+function showScreen(id) {
+  var screens = document.querySelectorAll('.screen');
+  for (var i = 0; i < screens.length; i++) {
+    screens[i].classList.remove('active');
+  }
+  var el = document.getElementById(id);
+  el.classList.add('active');
+  el.scrollTop = 0;
+  window.scrollTo(0, 0);
+}
+
+function showLevels(mode) {
+  state.mode = mode;
+  document.getElementById('level-screen-title').textContent =
+    mode === 'meanings' ? 'تحدي المعاني' : 'تحدي من القائل؟';
+  var grid = document.getElementById('levels-grid');
+  grid.innerHTML = '';
+  var maxLevels = mode === 'meanings' ? 10 : 7;
+  for (var i = 1; i <= maxLevels; i++) {
+    var unlocked = (i === 1) ||
+      localStorage.getItem('aty_unlock_' + mode + '_' + i) === '1';
+    var starsVal = parseInt(localStorage.getItem('aty_stars_' + mode + '_' + i) || '0');
+    var starsStr = unlocked
+      ? (starsVal >= 1 ? '●' : '○') + (starsVal >= 2 ? '●' : '○') + (starsVal >= 3 ? '●' : '○')
+      : '⊠';
+    var card = document.createElement('div');
+    card.className = 'level-card' + (unlocked ? '' : ' locked');
+    var numDiv = document.createElement('div');
+    numDiv.className = 'level-num';
+    numDiv.textContent = i;
+    var infoDiv = document.createElement('div');
+    infoDiv.className = 'level-info';
+    var nameDiv = document.createElement('div');
+    nameDiv.className = 'level-name';
+    nameDiv.textContent = 'المستوى ' + i;
+    infoDiv.appendChild(nameDiv);
+    var starsDiv = document.createElement('div');
+    starsDiv.style.fontSize = '18px';
+    starsDiv.style.color = 'var(--gold)';
+    starsDiv.textContent = starsStr;
+    card.appendChild(numDiv);
+    card.appendChild(infoDiv);
+    card.appendChild(starsDiv);
+    if (unlocked) {
+      (function(lvl) {
+        card.addEventListener('click', function() { startQuiz(mode, lvl); });
+      })(i);
+    }
+    grid.appendChild(card);
+  }
+  showScreen('level-screen');
+}
+
+function exitQuiz() {
+  clearInterval(state.timer);
+  showLevels(state.mode);
+}
+
+// ═══════════════════════════════════════
+//  QUIZ
+// ═══════════════════════════════════════
+function startQuiz(mode, level) {
+  state.mode    = mode;
+  state.level   = level;
+  state.currentIdx = 0;
+  state.score   = 0;
+  state.answers = [];
+  state.currentStreak = 0;
+  var maxLevels = mode === 'meanings' ? 10 : 7;
+  var pool;
+  if (mode === 'meanings') {
+    pool = MEANINGS.filter(function(q) { return q.level === level; });
+  } else {
+    var perLv = Math.ceil(SPEAKER_QS.length / maxLevels);
+    var start = (level - 1) * perLv;
+    pool = SPEAKER_QS.slice(start, Math.min(start + perLv, SPEAKER_QS.length));
+  }
+  state.questions = shuffle(pool);
+  showScreen('quiz-screen');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  var q     = state.questions[state.currentIdx];
+  var total = state.questions.length;
+  var idx   = state.currentIdx;
+
+  document.getElementById('progress-info').textContent = 'السؤال ' + (idx+1) + ' من ' + total;
+  document.getElementById('score-display').textContent = state.score;
+  document.getElementById('progress-fill').style.width = ((idx / total) * 100) + '%';
+  document.getElementById('verse-source').textContent = q.src;
+
+  var verseHtml = q.v.replace(/\{([^}]+)\}/g, '<span class="word-target">$1</span>');
+  document.getElementById('verse-text').innerHTML = verseHtml;
+
+  var qText = state.mode === 'speaker' ? 'من قائل هذه الآية؟' : q.q;
+  document.getElementById('quiz-question').textContent = qText;
+
+  var list = document.getElementById('options-list');
+  list.innerHTML = '';
+  var letters = ['أ', 'ب', 'ج'];
+  // نخلط الخيارات مع الحفاظ على معرفة الجواب الصحيح
+  var opts = q.o.map(function(text, idx) { return { text: text, orig: idx }; });
+  // shuffle
+  for (var si = opts.length - 1; si > 0; si--) {
+    var sj = Math.floor(Math.random() * (si + 1));
+    var st = opts[si]; opts[si] = opts[sj]; opts[sj] = st;
+  }
+  // نحفظ الموضع الجديد للجواب الصحيح
+  var newCorrect = -1;
+  for (var ni = 0; ni < opts.length; ni++) {
+    if (opts[ni].orig === q.c) { newCorrect = ni; break; }
+  }
+  state.currentCorrect = newCorrect;
+  for (var i = 0; i < opts.length; i++) {
+    var btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    var span1 = document.createElement('span');
+    span1.className = 'opt-letter';
+    span1.textContent = letters[i];
+    var span2 = document.createElement('span');
+    span2.className = 'opt-text';
+    span2.textContent = opts[i].text;
+    btn.appendChild(span1);
+    btn.appendChild(span2);
+    (function(ansIdx) {
+      btn.addEventListener('click', function() { handleAnswer(ansIdx); });
+    })(i);
+    list.appendChild(btn);
+  }
+
+  document.getElementById('knowledge-card').style.display = 'none';
+  document.getElementById('next-btn').style.display = 'none';
+  startTimer();
+}
+
+function startTimer() {
+  clearInterval(state.timer);
+  state.timeLeft = 20;
+  updateTimer();
+  state.timer = setInterval(function() {
+    state.timeLeft--;
+    updateTimer();
+    if (state.timeLeft <= 0) {
+      clearInterval(state.timer);
+      handleAnswer(-1);
+    }
+  }, 1000);
+}
+
+function updateTimer() {
+  var t = state.timeLeft;
+  var circ = document.getElementById('timer-circle');
+  var offset = 126 - (t / 20) * 126;
+  circ.style.strokeDashoffset = offset;
+  circ.style.stroke = t > 10 ? 'var(--dark)' : t > 5 ? 'var(--gold)' : 'var(--wrong)';
+  document.getElementById('timer-text').textContent = t;
+}
+
+function handleAnswer(idx) {
+  clearInterval(state.timer);
+  var q       = state.questions[state.currentIdx];
+  var correct = (idx === state.currentCorrect);
+  var btns    = document.querySelectorAll('.opt-btn');
+
+  for (var i = 0; i < btns.length; i++) { btns[i].disabled = true; }
+  if (idx !== -1) btns[idx].classList.add(correct ? 'correct' : 'wrong');
+  btns[state.currentCorrect].classList.add('correct');
+
+  if (correct) {
+    var bonus = state.timeLeft > 14 ? 150 : state.timeLeft > 8 ? 100 : 70;
+    state.score += bonus;
+    state.currentStreak++;
+    if (state.currentStreak > state.bestStreak) state.bestStreak = state.currentStreak;
+    state.totalCorrect++;
+  } else {
+    state.currentStreak = 0;
+  }
+  state.totalPlayed++;
+  state.answers.push(correct);
+  document.getElementById('score-display').textContent = state.score;
+
+  // Knowledge card
+  var kc = document.getElementById('knowledge-card');
+  var kcResult = document.getElementById('kc-result');
+  var kcIcon   = document.getElementById('kc-icon');
+  var kcText   = document.getElementById('kc-text');
+
+  if (state.mode === 'speaker') {
+    kcIcon.textContent   = '◆';
+    kcResult.textContent = 'للفائدة';
+  } else if (correct) {
+    kcIcon.textContent   = '◆';
+    kcResult.textContent = 'أحسنت! هذا هو المعنى الصحيح';
+  } else if (idx === -1) {
+    kcIcon.textContent   = '◷';
+    kcResult.textContent = 'انتهى الوقت — إليك الشرح';
+  } else {
+    kcIcon.textContent   = '◉';
+    kcResult.textContent = 'المعنى الصحيح';
+  }
+  kcText.textContent = q.k;
+  kc.style.display   = 'block';
+
+  var nextBtn = document.getElementById('next-btn');
+  nextBtn.style.display   = 'block';
+  nextBtn.textContent = (state.currentIdx + 1 >= state.questions.length)
+    ? 'عرض النتيجة ←'
+    : 'السؤال التالي ←';
+
+  setTimeout(function() {
+    var qbody = document.getElementById('quiz-body'); if(qbody) qbody.scrollTop = qbody.scrollHeight;
+  }, 150);
+}
+
+function nextQuestion() {
+  if (state.currentIdx + 1 >= state.questions.length) {
+    showResult();
+  } else {
+    state.currentIdx++;
+    renderQuestion();
+  }
+}
+
+// ═══════════════════════════════════════
+//  RESULT
+// ═══════════════════════════════════════
+function showResult() {
+  saveStats();
+  var correct = state.answers.filter(function(a) { return a; }).length;
+  var wrong   = state.answers.length - correct;
+  var pct     = Math.round(correct / state.answers.length * 100);
+  var icon, title, sub;
+  if      (pct >= 90) { icon = '●●●'; title = 'عبقري!';        sub = 'أنت من أهل التدبر'; }
+  else if (pct >= 70) { icon = '●●○'; title = 'ممتاز!';        sub = 'فهمك للقرآن رائع'; }
+  else if (pct >= 50) { icon = '●○○'; title = 'جيد!';          sub = 'استمر في التعلم'; }
+  else                { icon = '○○○'; title = 'تحتاج مراجعة'; sub = 'القرآن يستحق التدبر'; }
+  var iconEl = document.getElementById('result-icon');
+  iconEl.textContent    = icon;
+  iconEl.style.color    = 'var(--gold)';
+  iconEl.style.fontSize = '36px';
+  iconEl.style.letterSpacing = '4px';
+  document.getElementById('result-title').textContent    = title;
+  document.getElementById('result-subtitle').textContent = sub;
+  document.getElementById('result-score').textContent    = state.score;
+  document.getElementById('rs-correct').textContent      = correct;
+  document.getElementById('rs-wrong').textContent        = wrong;
+  document.getElementById('rs-pct').textContent          = pct + '%';
+  var dots = document.getElementById('result-dots');
+  dots.innerHTML = '';
+  for (var i = 0; i < state.answers.length; i++) {
+    var d = document.createElement('div');
+    d.className = 'result-dot ' + (state.answers[i] ? 'dot-correct' : 'dot-wrong');
+    d.textContent = state.answers[i] ? '✔' : '✘';
+    dots.appendChild(d);
+  }
+  // نجوم وفتح المستوى التالي
+  var stars   = pct >= 90 ? 3 : pct >= 70 ? 2 : pct >= 50 ? 1 : 0;
+  var maxLv   = state.mode === 'meanings' ? 10 : 7;
+  var gotStar = stars > 0;
+  if (gotStar) {
+    var key  = 'aty_stars_' + state.mode + '_' + state.level;
+    var prev = parseInt(localStorage.getItem(key) || '0');
+    if (stars > prev) localStorage.setItem(key, stars);
+    if (state.level < maxLv) {
+      localStorage.setItem('aty_unlock_' + state.mode + '_' + (state.level + 1), '1');
+    }
+  }
+  // أزرار النتيجة
+  var replayBtn    = document.getElementById('replay-btn');
+  var nextBtn      = document.getElementById('next-level-btn');
+  var finishMsg    = document.getElementById('finish-msg');
+  var isLastLevel  = (state.level >= maxLv);
+
+  if (finishMsg) finishMsg.style.display = 'none';
+
+  if (!gotStar) {
+    // كل الإجابات خاطئة أو لم يحصل نجمة
+    replayBtn.style.display = 'block';
+    nextBtn.style.display   = 'none';
+  } else if (isLastLevel) {
+    // أنهى آخر مستوى بنجمة
+    replayBtn.style.display = 'block';
+    nextBtn.style.display   = 'none';
+    if (finishMsg) finishMsg.style.display = 'block';
+  } else {
+    // حصل نجمة وفيه مستوى تالٍ
+    replayBtn.style.display = 'block';
+    nextBtn.style.display   = 'block';
+  }
+  showScreen('result-screen');
+}
+
+function replayQuiz() { startQuiz(state.mode, state.level); }
+
+function nextLevel() { startQuiz(state.mode, state.level + 1); }
+
+function saveStats() {
+  localStorage.setItem('aty_played',  state.totalPlayed);
+  localStorage.setItem('aty_correct', state.totalCorrect);
+  localStorage.setItem('aty_streak',  state.bestStreak);
+  updateHomeStats();
+}
+
+function updateHomeStats() {
+  document.getElementById('stat-played').textContent  = state.totalPlayed;
+  document.getElementById('stat-correct').textContent = state.totalCorrect;
+  document.getElementById('stat-streak').textContent  = state.bestStreak;
+}
+
+function shareResult() {
+  var correct = state.answers.filter(function(a){ return a; }).length;
+  var total   = state.answers.length;
+  var pct     = Math.round(correct / total * 100);
+  var dots    = state.answers.map(function(a){ return a ? '●' : '○'; }).join('');
+  var mode    = state.mode === 'meanings' ? 'تحدي المعاني' : 'من القائل؟';
+  var text    = 'أثرٌ يبقى \n\n' + mode + ' — المستوى ' + state.level +
+                '\n\n' + dots + '\n\n' + correct + '/' + total + ' (' + pct + '%)\n\nجرّب معي ';
+  if (navigator.share) {
+    navigator.share({ title: 'أثرٌ يبقى', text: text });
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(function() {
+      alert('تم نسخ النتيجة!');
+    });
+  }
+}
+
+// Init
+updateHomeStats();
+
+</script>
+</body>
+</html>
